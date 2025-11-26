@@ -1,0 +1,134 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* HEADER */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+  background: #101827;
+  color: #ffffff;
+}
+
+.header__logo img {
+  height: 40px;
+}
+
+.header__logo span {
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.header__nav a {
+  margin-left: 16px;
+  color: #e5e7eb;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.header__nav a:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+/* MAIN */
+
+.main {
+  padding: 24px;
+}
+
+/* Diagrama */
+
+.diagram {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.diagram h1 {
+  margin-bottom: 16px;
+  font-size: 1.8rem;
+}
+
+.diagram__wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: auto;
+}
+
+/* SVG */
+
+.diagram__svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Líneas del diagrama */
+
+.line {
+  stroke: #9ca3af;
+  stroke-width: 2;
+}
+
+/* Círculos */
+
+.circle {
+  fill: #1f2937;
+  stroke: #3b82f6;
+  stroke-width: 2;
+}
+
+.circle--center {
+  fill: #3b82f6;
+  stroke: #1f2937;
+}
+
+.circle--dept {
+  cursor: pointer;
+  transition: transform 0.2s ease, fill 0.2s ease;
+}
+
+.circle--dept:hover {
+  transform: scale(1.05);
+  fill: #2563eb;
+}
+
+/* Texto dentro de los círculos */
+
+.circle__text {
+  fill: #ffffff;
+  font-size: 12px;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  pointer-events: none; /* Para que el texto no interfiera con el click del círculo */
+}
+
+.circle__text--small {
+  font-size: 10px;
+}
+
+/* Secciones de contenido */
+
+.section {
+  margin-top: 40px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+}
+
+.section h2 {
+  margin-bottom: 8px;
+  font-size: 1.5rem;
+}
+
+.section p {
+  color: #4b5563;
+  line-height: 1.5;
+}
