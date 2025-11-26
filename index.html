@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Empresa XYZ</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header__logo">
+      <!-- Aquí pones tu imagen de logo -->
+      <img src="logo.png" alt="Logo Empresa XYZ" />
+      <!-- O solo texto: <span>Empresa XYZ</span> -->
+    </div>
+    <nav class="header__nav">
+      <a href="#inicio">Inicio</a>
+      <a href="#empresa">La empresa</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+  </header>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="main">
+    <section class="diagram">
+      <!-- Título o texto opcional -->
+      <h1>Departamentos</h1>
+
+      <!-- Diagrama con líneas y círculos (usaremos SVG) -->
+      <div class="diagram__wrapper">
+        <svg
+          class="diagram__svg"
+          viewBox="0 0 600 300"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <!-- Círculo central (logo o núcleo) -->
+          <circle cx="300" cy="150" r="40" class="circle circle--center" />
+          <text x="300" y="155" class="circle__text">Logo</text>
+
+          <!-- Líneas hacia los departamentos -->
+          <line x1="300" y1="150" x2="120" y2="70" class="line" />
+          <line x1="300" y1="150" x2="120" y2="230" class="line" />
+          <line x1="300" y1="150" x2="480" y2="70" class="line" />
+          <line x1="300" y1="150" x2="480" y2="230" class="line" />
+
+          <!-- Círculos de departamentos (botones) -->
+          <!-- Departamento 1 -->
+          <a href="#comercial">
+            <circle cx="120" cy="70" r="30" class="circle circle--dept" />
+            <text x="120" y="75" class="circle__text circle__text--small">
+              Comercial
+            </text>
+          </a>
+
+          <!-- Departamento 2 -->
+          <a href="#soporte">
+            <circle cx="120" cy="230" r="30" class="circle circle--dept" />
+            <text x="120" y="235" class="circle__text circle__text--small">
+              Soporte
+            </text>
+          </a>
+
+          <!-- Departamento 3 -->
+          <a href="#id">
+            <circle cx="480" cy="70" r="30" class="circle circle--dept" />
+            <text x="480" y="75" class="circle__text circle__text--small">
+              I+D
+            </text>
+          </a>
+
+          <!-- Departamento 4 -->
+          <a href="#rrhh">
+            <circle cx="480" cy="230" r="30" class="circle circle--dept" />
+            <text x="480" y="235" class="circle__text circle__text--small">
+              RRHH
+            </text>
+          </a>
+        </svg>
+      </div>
+    </section>
+
+    <!-- Secciones de ejemplo para anclar los enlaces -->
+    <section id="comercial" class="section">
+      <h2>Departamento Comercial</h2>
+      <p>Descripción del departamento comercial...</p>
+    </section>
+
+    <section id="soporte" class="section">
+      <h2>Departamento de Soporte</h2>
+      <p>Descripción del departamento de soporte...</p>
+    </section>
+
+    <section id="id" class="section">
+      <h2>Departamento de I+D</h2>
+      <p>Descripción del departamento de investigación y desarrollo...</p>
+    </section>
+
+    <section id="rrhh" class="section">
+      <h2>Departamento de RRHH</h2>
+      <p>Descripción del departamento de recursos humanos...</p>
+    </section>
+  </main>
+</body>
+</html>
