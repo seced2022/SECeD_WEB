@@ -3,103 +3,265 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Empresa XYZ</title>
-  <link rel="stylesheet" href="styles.css" />
+  <title>Empresa - Mapa de Departamentos</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      background: #0b1120;
+      color: #e5e7eb;
+    }
+
+    /* HEADER */
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 24px;
+      background: #020617;
+      color: #ffffff;
+      border-bottom: 1px solid #1e293b;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo span {
+      font-size: 1.2rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+
+    nav a {
+      margin-left: 16px;
+      color: #9ca3af;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+
+    nav a:hover {
+      color: #ffffff;
+    }
+
+    /* CONTENIDO PRINCIPAL */
+
+    main {
+      padding: 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    /* ZONA DE LA GRÁFICA */
+
+    .grafica-container {
+      position: relative;
+      margin: 0 auto;
+      max-width: 900px;
+      background: radial-gradient(circle at top, #1f2937, #020617);
+      border-radius: 24px;
+      padding: 16px 16px 32px;
+      box-shadow: 0 25px 50px rgba(15, 23, 42, 0.8);
+      border: 1px solid #1f2937;
+    }
+
+    .grafica-title {
+      text-align: left;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: #9ca3af;
+      margin-bottom: 12px;
+    }
+
+    .grafica-wrapper {
+      position: relative;
+      width: 100%;
+      /* misma proporción que la imagen original (2048x1447 ≈ 70.6%) */
+      padding-top: 70.6%;
+      overflow: visible;
+    }
+
+    .grafica-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none; /* la imagen no tapa los clics */
+    }
+
+    /* BOTONES CIRCULARES SOBRE CADA CÍRCULO DEL DIBUJO */
+
+    .dept-btn {
+      position: absolute;
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      border: 2px solid #38bdf8;
+      background: rgba(15, 23, 42, 0.95);
+      color: #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 11px;
+      padding: 6px;
+      text-decoration: none;
+      cursor: pointer;
+      /* centramos el botón en las coordenadas top/left */
+      transform: translate(-50%, -50%);
+      transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+      box-shadow: 0 10px 30px rgba(8, 47, 73, 0.7);
+    }
+
+    .dept-btn:hover {
+      background: #0ea5e9;
+      border-color: #f9fafb;
+      transform: translate(-50%, -50%) scale(1.08);
+      box-shadow: 0 18px 40px rgba(56, 189, 248, 0.9);
+    }
+
+    .dept-btn span {
+      pointer-events: none;
+    }
+
+    /* POSICIONES CALCULADAS A PARTIR DE TU PNG (porcentajes) */
+
+    /* círculo más a la izquierda */
+    .dept-1 { top: 57.3%; left: 22.7%; }
+
+    /* segundo círculo */
+    .dept-2 { top: 39.7%; left: 40.9%; }
+
+    /* tercero (centro-derecha) */
+    .dept-3 { top: 40.8%; left: 60.1%; }
+
+    /* cuarto */
+    .dept-4 { top: 48.3%; left: 75.4%; }
+
+    /* quinto (más a la derecha) */
+    .dept-5 { top: 39.9%; left: 88.8%; }
+
+    /* SECCIONES DEPARTAMENTOS */
+
+    section.departamento {
+      margin-top: 40px;
+      padding: 24px;
+      background: #020617;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.8);
+      border: 1px solid #1e293b;
+    }
+
+    section.departamento h2 {
+      margin-bottom: 8px;
+      font-size: 1.4rem;
+    }
+
+    section.departamento p {
+      color: #9ca3af;
+      line-height: 1.5;
+      font-size: 0.95rem;
+    }
+  </style>
 </head>
 <body>
   <!-- HEADER -->
-  <header class="header">
-    <div class="header__logo">
-      <!-- Aquí pones tu imagen de logo -->
-      <img src="logo.png" alt="Logo Empresa XYZ" />
-      <!-- O solo texto: <span>Empresa XYZ</span> -->
+  <header>
+    <div class="logo">
+      <!-- Pon aquí tu logo si quieres -->
+      <!-- <img src="logo.png" alt="Logo" /> -->
+      <span>MI EMPRESA</span>
     </div>
-    <nav class="header__nav">
+    <nav>
       <a href="#inicio">Inicio</a>
-      <a href="#empresa">La empresa</a>
-      <a href="#servicios">Servicios</a>
+      <a href="#departamentos">Departamentos</a>
       <a href="#contacto">Contacto</a>
     </nav>
   </header>
 
-  <!-- CONTENIDO PRINCIPAL -->
-  <main class="main">
-    <section class="diagram">
-      <!-- Título o texto opcional -->
-      <h1>Departamentos</h1>
+  <main>
+    <h1 id="inicio">Mapa interactivo de departamentos</h1>
 
-      <!-- Diagrama con líneas y círculos (usaremos SVG) -->
-      <div class="diagram__wrapper">
-        <svg
-          class="diagram__svg"
-          viewBox="0 0 600 300"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <!-- Círculo central (logo o núcleo) -->
-          <circle cx="300" cy="150" r="40" class="circle circle--center" />
-          <text x="300" y="155" class="circle__text">Logo</text>
+    <!-- ZONA GRÁFICA CON TU PNG -->
+    <div id="departamentos" class="grafica-container">
+      <div class="grafica-title">Estructura de la compañía</div>
 
-          <!-- Líneas hacia los departamentos -->
-          <line x1="300" y1="150" x2="120" y2="70" class="line" />
-          <line x1="300" y1="150" x2="120" y2="230" class="line" />
-          <line x1="300" y1="150" x2="480" y2="70" class="line" />
-          <line x1="300" y1="150" x2="480" y2="230" class="line" />
+      <div class="grafica-wrapper">
+        <!-- TU IMAGEN -->
+        <img src="SILU.png" alt="Gráfica departamentos" class="grafica-image" />
 
-          <!-- Círculos de departamentos (botones) -->
-          <!-- Departamento 1 -->
-          <a href="#comercial">
-            <circle cx="120" cy="70" r="30" class="circle circle--dept" />
-            <text x="120" y="75" class="circle__text circle__text--small">
-              Comercial
-            </text>
-          </a>
+        <!-- BOTONES SOBRE CADA CÍRCULO -->
 
-          <!-- Departamento 2 -->
-          <a href="#soporte">
-            <circle cx="120" cy="230" r="30" class="circle circle--dept" />
-            <text x="120" y="235" class="circle__text circle__text--small">
-              Soporte
-            </text>
-          </a>
+        <a href="#dep1" class="dept-btn dept-1">
+          <span>Depto 1</span>
+        </a>
 
-          <!-- Departamento 3 -->
-          <a href="#id">
-            <circle cx="480" cy="70" r="30" class="circle circle--dept" />
-            <text x="480" y="75" class="circle__text circle__text--small">
-              I+D
-            </text>
-          </a>
+        <a href="#dep2" class="dept-btn dept-2">
+          <span>Depto 2</span>
+        </a>
 
-          <!-- Departamento 4 -->
-          <a href="#rrhh">
-            <circle cx="480" cy="230" r="30" class="circle circle--dept" />
-            <text x="480" y="235" class="circle__text circle__text--small">
-              RRHH
-            </text>
-          </a>
-        </svg>
+        <a href="#dep3" class="dept-btn dept-3">
+          <span>Depto 3</span>
+        </a>
+
+        <a href="#dep4" class="dept-btn dept-4">
+          <span>Depto 4</span>
+        </a>
+
+        <a href="#dep5" class="dept-btn dept-5">
+          <span>Depto 5</span>
+        </a>
       </div>
+    </div>
+
+    <!-- SECCIONES DESTINO (EDITA NOMBRES Y TEXTOS) -->
+
+    <section id="dep1" class="departamento">
+      <h2>Departamento 1</h2>
+      <p>Descripción del Departamento 1.</p>
     </section>
 
-    <!-- Secciones de ejemplo para anclar los enlaces -->
-    <section id="comercial" class="section">
-      <h2>Departamento Comercial</h2>
-      <p>Descripción del departamento comercial...</p>
+    <section id="dep2" class="departamento">
+      <h2>Departamento 2</h2>
+      <p>Descripción del Departamento 2.</p>
     </section>
 
-    <section id="soporte" class="section">
-      <h2>Departamento de Soporte</h2>
-      <p>Descripción del departamento de soporte...</p>
+    <section id="dep3" class="departamento">
+      <h2>Departamento 3</h2>
+      <p>Descripción del Departamento 3.</p>
     </section>
 
-    <section id="id" class="section">
-      <h2>Departamento de I+D</h2>
-      <p>Descripción del departamento de investigación y desarrollo...</p>
+    <section id="dep4" class="departamento">
+      <h2>Departamento 4</h2>
+      <p>Descripción del Departamento 4.</p>
     </section>
 
-    <section id="rrhh" class="section">
-      <h2>Departamento de RRHH</h2>
-      <p>Descripción del departamento de recursos humanos...</p>
+    <section id="dep5" class="departamento">
+      <h2>Departamento 5</h2>
+      <p>Descripción del Departamento 5.</p>
+    </section>
+
+    <!-- Ancla de ejemplo para "Contacto" -->
+    <section id="contacto" class="departamento">
+      <h2>Contacto</h2>
+      <p>Aquí irían los datos de contacto de la empresa.</p>
     </section>
   </main>
 </body>
