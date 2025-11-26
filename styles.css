@@ -103,7 +103,7 @@
 
 .circle__text {
   fill: #ffffff;
-  font-size: 12px;
+  font-size: 24px;
   text-anchor: middle;
   dominant-baseline: middle;
   pointer-events: none; /* Para que el texto no interfiera con el click del círculo */
