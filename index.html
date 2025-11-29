@@ -65,12 +65,6 @@
       margin: 0 auto;
     }
 
-    h1 {
-      font-size: 1.8rem;
-      margin-bottom: 16px;
-      text-align: center;
-    }
-
     /* ZONA DE LA GRÁFICA */
 
     .grafica-container {
@@ -145,7 +139,7 @@
       pointer-events: none;
     }
 
-    /* POSICIONES DE LOS CÍRCULOS */
+    /* POSICIONES (ajustadas a tu imagen) */
 
     .dept-1 { top: 55.3%; left: 20%; }
     .dept-2 { top: 38.7%; left: 40.9%; }
@@ -153,90 +147,28 @@
     .dept-4 { top: 49.4%; left: 75.9%; }
     .dept-5 { top: 38.5%; left: 90.5%; }
 
-    /* BOTONES DEPARTAMENTOS ABAJO DEL GRÁFICO */
+    /* PANEL DEL DEPARTAMENTO (debajo de la gráfica) */
 
-    .dept-selectors {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      justify-content: center;
-      margin-top: 20px;
-    }
-
-    .dept-selector {
-      padding: 8px 14px;
-      border-radius: 9999px;
-      border: 1px solid #334155;
-      background: #020617;
-      color: #e5e7eb;
-      font-size: 0.85rem;
-      cursor: pointer;
-      text-transform: none;
-      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
-    }
-
-    .dept-selector:hover {
-      background: #0f172a;
-      transform: translateY(-1px);
-    }
-
-    .dept-selector.dept-active {
-      background: #0ea5e9;
-      border-color: #f9fafb;
-      color: #020617;
-      font-weight: 600;
-    }
-
-    /* SECCIONES DEPARTAMENTOS */
-
-    section.departamento {
-      margin-top: 40px;
-      padding: 24px;
+    .dept-panel {
+      margin: 32px auto 0;
+      max-width: 900px;
       background: #020617;
       border-radius: 16px;
       box-shadow: 0 10px 25px rgba(15, 23, 42, 0.8);
       border: 1px solid #1e293b;
-      display: none; /* se controlan por JS */
+      padding: 20px 24px;
+      display: none; /* se muestra al pulsar un círculo */
     }
 
-    section.departamento h2 {
-      margin-bottom: 12px;
+    .dept-panel-title {
       font-size: 1.4rem;
+      margin-bottom: 8px;
     }
 
-    .dept-layout {
-      display: grid;
-      grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
-      gap: 20px;
-    }
-
-    .dept-layout-single {
-      display: block;
-    }
-
-    .dept-text {
+    .dept-panel-text {
       color: #9ca3af;
-      line-height: 1.5;
       font-size: 0.95rem;
     }
-
-    .dept-gallery {
-      border-radius: 12px;
-      border: 1px dashed #334155;
-      min-height: 120px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #6b7280;
-      font-size: 0.85rem;
-    }
-
-    @media (max-width: 768px) {
-      .dept-layout {
-        grid-template-columns: 1fr;
-      }
-    }
-
   </style>
 </head>
 <body>
@@ -265,29 +197,85 @@
         <img src="SILU.png" alt="Gráfica departamentos" class="grafica-image" />
 
         <!-- CÍRCULOS / BOTONES SOBRE LA IMAGEN -->
-        <a href="#dep1" class="dept-btn dept-1" data-dept-target="dep1">
+        <a href="#" class="dept-btn dept-1" data-dept-target="dep1">
           <span>S</span>
         </a>
 
-        <a href="#dep2" class="dept-btn dept-2" data-dept-target="dep2">
+        <a href="#" class="dept-btn dept-2" data-dept-target="dep2">
           <span>E</span>
         </a>
 
-        <a href="#dep3" class="dept-btn dept-3" data-dept-target="dep3">
+        <a href="#" class="dept-btn dept-3" data-dept-target="dep3">
           <span>C</span>
         </a>
 
-        <a href="#dep4" class="dept-btn dept-4" data-dept-target="dep4">
+        <a href="#" class="dept-btn dept-4" data-dept-target="dep4">
           <span>e</span>
         </a>
 
-        <a href="#dep5" class="dept-btn dept-5" data-dept-target="dep5">
+        <a href="#" class="dept-btn dept-5" data-dept-target="dep5">
           <span>D</span>
         </a>
       </div>
+    </div>
 
-      <!-- BOTONES DEPARTAMENTOS ABAJO -->
-      <div class="dept-selectors">
-        <button class="dept-selector" data-dept-target="dep1">Seguridad</button>
-        <button class="dept-selector" data-dept-target="dep2">Equipos de Cronometraje</button>
-        <button class="dept-selector" data-dept-ta
+    <!-- PANEL QUE SE ABRE AL PULSAR UN CÍRCULO -->
+    <div id="dept-panel" class="dept-panel">
+      <div id="dept-panel-title" class="dept-panel-title"></div>
+      <div id="dept-panel-text" class="dept-panel-text">
+        <!-- Aquí luego iremos metiendo fotos, productos, etc. -->
+      </div>
+    </div>
+  </main>
+
+  <!-- JS PARA CONTROLAR LOS CÍRCULOS Y EL PANEL -->
+  <script>
+    // Mapeo de id interno -> nombre del departamento
+    const deptInfo = {
+      dep1: { titulo: "Seguridad" },
+      dep2: { titulo: "Equipos de Cronometraje" },
+      dep3: { titulo: "Comunicaciones" },
+      dep4: { titulo: "Equipo Técnico" },
+      dep5: { titulo: "Domótica y Monitorización" }
+    };
+
+    const deptButtons = document.querySelectorAll(".dept-btn");
+    const panel = document.getElementById("dept-panel");
+    const panelTitle = document.getElementById("dept-panel-title");
+    const panelText = document.getElementById("dept-panel-text");
+
+    function abrirDepartamento(id) {
+      const info = deptInfo[id];
+      if (!info) return;
+
+      // Título del panel
+      panelTitle.textContent = info.titulo;
+      // De momento solo mostramos el nombre; aquí luego pondremos contenido
+      panelText.textContent = "Panel de " + info.titulo + ". Aquí añadiremos fotos, productos y descripciones.";
+
+      // Mostrar panel
+      panel.style.display = "block";
+
+      // Marcar círculo activo
+      deptButtons.forEach(btn => {
+        const target = btn.getAttribute("data-dept-target");
+        btn.classList.toggle("dept-active", target === id);
+      });
+
+      // Hacer scroll suave hasta el panel
+      panel.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    deptButtons.forEach(btn => {
+      btn.addEventListener("click", function (e) {
+        e.preventDefault();
+        const id = this.getAttribute("data-dept-target");
+        abrirDepartamento(id);
+      });
+    });
+
+    // Opcional: abrir uno por defecto al cargar
+    // abrirDepartamento("dep1");
+  </script>
+</body>
+</html>
