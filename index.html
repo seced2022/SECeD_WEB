@@ -132,7 +132,7 @@
 
       /* patrón de puntos azules tipo LED */
       background-image: radial-gradient(circle, #38bdf8 65%, transparent 66%);
-      background-size: 7px 7px;   /* puntos más grandes */
+      background-size: 7px 7px;
       background-repeat: repeat;
 
       -webkit-background-clip: text;
@@ -164,7 +164,7 @@
       }
     }
 
-    /* CÍRCULOS SVG (SIN MOVERSE, SOLO CAMBIO DE COLOR) */
+    /* CÍRCULOS SVG PRINCIPALES */
 
     .dept-group {
       cursor: pointer;
@@ -194,7 +194,7 @@
       pointer-events: none;
     }
 
-    /* PANEL DEL DEPARTAMENTO (SIEMPRE VISIBLE PERO VACÍO HASTA QUE SE ELIJA) */
+    /* PANEL DEL DEPARTAMENTO */
 
     .dept-panel {
       margin: 32px auto 0;
@@ -218,6 +218,50 @@
       font-size: 0.95rem;
       text-align: center;
       min-height: 1.2rem;
+    }
+
+    /* MINI GRÁFICA PARA SEGURIDAD (SUBDEPARTAMENTOS) */
+
+    .seg-diagram-wrapper {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .seg-diagram-svg {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .seg-circle {
+      fill: rgba(15, 23, 42, 0.96);
+      stroke: #38bdf8;
+      stroke-width: 4;
+      filter: drop-shadow(0 5px 12px rgba(8, 47, 73, 0.9));
+    }
+
+    .seg-label {
+      fill: #e5e7eb;
+      font-size: 14px;
+      text-anchor: middle;
+    }
+
+    .seg-label-small {
+      font-size: 11px;
+    }
+
+    .seg-icon-stroke {
+      stroke: #38bdf8;
+      stroke-width: 3;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .seg-icon-fill {
+      fill: #38bdf8;
+      stroke: none;
     }
   </style>
 </head>
@@ -249,7 +293,7 @@
         </div>
       </div>
 
-      <!-- SVG: IMAGEN + CÍRCULOS -->
+      <!-- SVG: IMAGEN + CÍRCULOS PRINCIPALES -->
       <div class="grafica-wrapper">
         <svg
           class="diagram-svg"
@@ -321,8 +365,80 @@
       const info = deptInfo[id];
       if (!info) return;
       panelTitle.textContent = info.titulo;
-      panelText.textContent =
-        "Panel de " + info.titulo + ". Aquí añadiremos fotos, productos y descripciones.";
+
+      if (id === "dep1") {
+        // Panel especial para Seguridad con mini-gráfica de subdepartamentos
+        panelText.innerHTML = `
+          <p>Subdepartamentos de Seguridad:</p>
+          <div class="seg-diagram-wrapper">
+            <svg class="seg-diagram-svg" viewBox="0 0 800 260" xmlns="http://www.w3.org/2000/svg">
+              <!-- Línea base opcional -->
+              <line x1="80" y1="120" x2="720" y2="120" stroke="#4b5563" stroke-width="2" stroke-dasharray="4 6" />
+
+              <!-- 1. Seguridad Aérea (drones) -->
+              <g transform="translate(100, 120)">
+                <circle class="seg-circle" cx="0" cy="0" r="55" />
+                <!-- Icono drone -->
+                <rect class="seg-icon-stroke" x="-18" y="-10" width="36" height="20" rx="4" />
+                <line class="seg-icon-stroke" x1="-35" y1="-20" x2="-10" y2="-10" />
+                <line class="seg-icon-stroke" x1="35" y1="-20" x2="10" y2="-10" />
+                <line class="seg-icon-stroke" x1="-35" y1="20" x2="-10" y2="10" />
+                <line class="seg-icon-stroke" x1="35" y1="20" x2="10" y2="10" />
+                <circle class="seg-icon-stroke" cx="-35" cy="-20" r="5" />
+                <circle class="seg-icon-stroke" cx="35" cy="-20" r="5" />
+                <circle class="seg-icon-stroke" cx="-35" cy="20" r="5" />
+                <circle class="seg-icon-stroke" cx="35" cy="20" r="5" />
+                <circle class="seg-icon-stroke" cx="0" cy="0" r="4" />
+                <!-- Texto -->
+                <text class="seg-label" x="0" y="85">Seguridad Aérea</text>
+                <text class="seg-label seg-label-small" x="0" y="105">(drones)</text>
+              </g>
+
+              <!-- 2. Control de Participantes -->
+              <g transform="translate(300, 120)">
+                <circle class="seg-circle" cx="0" cy="0" r="55" />
+                <!-- Icono personas -->
+                <circle class="seg-icon-stroke" cx="-16" cy="-8" r="10" />
+                <circle class="seg-icon-stroke" cx="16" cy="-8" r="10" />
+                <circle class="seg-icon-stroke" cx="0" cy="12" r="10" />
+                <path class="seg-icon-stroke" d="M -30 20 C -20 5, -12 5, -2 20" />
+                <path class="seg-icon-stroke" d="M 30 20 C 20 5, 12 5, 2 20" />
+                <path class="seg-icon-stroke" d="M -14 35 C 0 18, 0 18, 14 35" />
+                <!-- Texto -->
+                <text class="seg-label" x="0" y="85">Control de</text>
+                <text class="seg-label seg-label-small" x="0" y="105">Participantes</text>
+              </g>
+
+              <!-- 3. Posicionamiento GPS -->
+              <g transform="translate(500, 120)">
+                <circle class="seg-circle" cx="0" cy="0" r="55" />
+                <!-- Icono pin GPS -->
+                <path class="seg-icon-stroke" d="M 0 -28 C -16 -28, -28 -16, -28 0 C -28 14, 0 40, 0 40 C 0 40, 28 14, 28 0 C 28 -16, 16 -28, 0 -28 Z" />
+                <circle class="seg-icon-stroke" cx="0" cy="-10" r="8" />
+                <circle class="seg-icon-fill" cx="0" cy="42" r="3" />
+                <!-- Texto -->
+                <text class="seg-label" x="0" y="85">Posicionamiento</text>
+                <text class="seg-label seg-label-small" x="0" y="105">GPS</text>
+              </g>
+
+              <!-- 4. Banderas Electrónicas -->
+              <g transform="translate(700, 120)">
+                <circle class="seg-circle" cx="0" cy="0" r="55" />
+                <!-- Icono bandera -->
+                <line class="seg-icon-stroke" x1="-18" y1="-30" x2="-18" y2="35" />
+                <path class="seg-icon-stroke" d="M -18 -30 L 15 -22 L -4 -10 L 15 2 L -18 10 Z" />
+                <!-- Texto -->
+                <text class="seg-label" x="0" y="85">Banderas</text>
+                <text class="seg-label seg-label-small" x="0" y="105">Electrónicas</text>
+              </g>
+            </svg>
+          </div>
+        `;
+      } else {
+        // Panel genérico para el resto de departamentos
+        panelText.textContent =
+          "Panel de " + info.titulo + ". Aquí añadiremos fotos, productos y descripciones.";
+      }
     }
 
     function clearPanel() {
