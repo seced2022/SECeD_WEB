@@ -43,7 +43,7 @@
   padding: 24px;
 }
 
-/* PANEL LED ENCIMA DE LA GRÁFICA (ESTILO MATRIZ RGB) */
+/* PANEL LED ENCIMA DE LA GRÁFICA (ESTILO MATRIZ) */
 
 .dept-led {
   width: 100%;
@@ -65,58 +65,47 @@
   justify-content: center;
 }
 
-/* Texto estilo panel LED RGB */
+/* Texto estilo panel LED AZUL con puntos */
 .dept-led-text {
   font-family: "Courier New", monospace;
-  font-size: 1rem;
-  letter-spacing: 0.22em;
+  font-size: 1.35rem;       /* más grande */
+  letter-spacing: 0.30em;   /* más separado */
   text-transform: uppercase;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 
-  /* degradado RGB simulando leds */
-  background: linear-gradient(
-    90deg,
-    #22c55e,
-    #22d3ee,
-    #3b82f6,
-    #a855f7,
-    #f97316,
-    #22c55e
-  );
+  /* patrón de puntos azules tipo LED */
+  background-image: radial-gradient(circle, #38bdf8 65%, transparent 66%);
+  background-size: 7px 7px;   /* puntos más grandes */
+  background-repeat: repeat;
+
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 
-  /* brillo tipo leds */
+  /* halo azul alrededor de los puntos */
   text-shadow:
     0 0 4px rgba(56, 189, 248, 0.9),
-    0 0 8px rgba(56, 189, 248, 0.8),
-    0 0 14px rgba(59, 130, 246, 0.8);
+    0 0 9px rgba(56, 189, 248, 0.8),
+    0 0 16px rgba(96, 165, 250, 0.7);
 
-  animation: ledGlow 3s linear infinite;
+  animation: ledGlow 2.5s ease-in-out infinite;
 }
 
-/* ligero movimiento del brillo para parecer panel activo */
+/* parpadeo suave del brillo azul */
 @keyframes ledGlow {
-  0% {
+  0%, 100% {
     text-shadow:
       0 0 4px rgba(56, 189, 248, 0.9),
-      0 0 8px rgba(56, 189, 248, 0.8),
-      0 0 14px rgba(59, 130, 246, 0.8);
+      0 0 9px rgba(56, 189, 248, 0.8),
+      0 0 16px rgba(96, 165, 250, 0.7);
   }
   50% {
     text-shadow:
       0 0 6px rgba(56, 189, 248, 1),
-      0 0 12px rgba(56, 189, 248, 0.9),
-      0 0 18px rgba(129, 140, 248, 0.9);
-  }
-  100% {
-    text-shadow:
-      0 0 4px rgba(56, 189, 248, 0.9),
-      0 0 8px rgba(56, 189, 248, 0.8),
-      0 0 14px rgba(59, 130, 246, 0.8);
+      0 0 12px rgba(56, 189, 248, 1),
+      0 0 22px rgba(147, 197, 253, 0.9);
   }
 }
 
