@@ -88,64 +88,44 @@
     }
 
     .grafica-wrapper {
-      position: relative;
       width: 100%;
-      /* misma proporción que la imagen original (2048x1447 ≈ 70.6%) */
-      padding-top: 70.6%;
-      overflow: visible;
     }
 
-    .grafica-image {
-      position: absolute;
-      inset: 0;
+    .diagram-svg {
       width: 100%;
-      height: 100%;
-      object-fit: contain;
-      pointer-events: none; /* la imagen no tapa los clics */
+      height: auto;
+      display: block;
     }
 
-    /* BOTONES CIRCULARES SOBRE CADA CÍRCULO DEL DIBUJO */
+    /* CÍRCULOS DENTRO DEL SVG */
 
-    .dept-btn {
-      position: absolute;
-      width: 70px;
-      height: 70px;
-      border-radius: 50%;
-      border: 2px solid #38bdf8;
-      background: rgba(15, 23, 42, 0.95);
-      color: #e5e7eb;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      font-size: 18px;
-      font-weight: 600;
-      text-decoration: none;
+    .dept-group {
       cursor: pointer;
-      transform: translate(-50%, -50%);
-      transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-      box-shadow: 0 10px 30px rgba(8, 47, 73, 0.7);
     }
 
-    .dept-btn:hover,
-    .dept-btn.dept-active {
-      background: #0ea5e9;
-      border-color: #f9fafb;
-      transform: translate(-50%, -50%) scale(1.08);
-      box-shadow: 0 18px 40px rgba(56, 189, 248, 0.9);
+    .dept-circle {
+      fill: rgba(15, 23, 42, 0.95);
+      stroke: #38bdf8;
+      stroke-width: 10;
+      filter: drop-shadow(0 10px 20px rgba(8, 47, 73, 0.8));
+      transition: fill 0.2s ease, stroke 0.2s ease, transform 0.2s ease, filter 0.2s ease;
     }
 
-    .dept-btn span {
+    .dept-text {
+      fill: #f9fafb;
+      font-size: 90px;
+      font-weight: 700;
+      text-anchor: middle;
+      dominant-baseline: middle;
       pointer-events: none;
     }
 
-    /* POSICIONES (ajustadas a tu imagen) */
-
-    .dept-1 { top: 55.3%; left: 20%; }
-    .dept-2 { top: 38.7%; left: 40.9%; }
-    .dept-3 { top: 40.8%; left: 63.1%; }
-    .dept-4 { top: 49.4%; left: 75.9%; }
-    .dept-5 { top: 38.5%; left: 90.5%; }
+    .dept-group:hover .dept-circle,
+    .dept-group.dept-active .dept-circle {
+      fill: #0ea5e9;
+      stroke: #f9fafb;
+      filter: drop-shadow(0 18px 40px rgba(56, 189, 248, 0.9));
+    }
 
     /* PANEL DEL DEPARTAMENTO (debajo de la gráfica) */
 
@@ -175,8 +155,8 @@
   <!-- HEADER -->
   <header>
     <div class="logo">
-      <img src="LOGOS SILU GRISES (3).png" alt="" />
-      <span></span>
+      <img src="LOGOS SILU GRISES (3).png" alt="SECeD" />
+      <span>SECeD</span>
     </div>
     <nav>
       <a href="#inicio">Inicio</a>
@@ -188,34 +168,75 @@
   <main>
     <h1 id="inicio"></h1>
 
-    <!-- ZONA GRÁFICA CON TU PNG -->
+    <!-- ZONA GRÁFICA CON SVG (IMAGEN + CÍRCULOS) -->
     <div id="departamentos" class="grafica-container">
-      <div class="grafica-title">I+D+i</div>
+      <div class="grafica-title">I+D+I</div>
 
       <div class="grafica-wrapper">
-        <!-- TU IMAGEN -->
-        <img src="SILU.png" alt="Gráfica departamentos" class="grafica-image" />
+        <!-- IMPORTANTE: SILU.png debe estar en la misma carpeta que index.html -->
+        <svg
+          class="diagram-svg"
+          viewBox="0 0 2048 1447"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <!-- Imagen de fondo -->
+          <image href="SILU.png" x="0" y="0" width="2048" height="1447" />
 
-        <!-- CÍRCULOS / BOTONES SOBRE LA IMAGEN -->
-        <a href="#" class="dept-btn dept-1" data-dept-target="dep1">
-          <span>S</span>
-        </a>
+          <!-- Círculo 1 (S) -->
+          <g class="dept-group" data-dept-target="dep1">
+            <circle
+              class="dept-circle"
+              cx="410"
+              cy="800"
+              r="90"
+            />
+            <text class="dept-text" x="410" y="800">S</text>
+          </g>
 
-        <a href="#" class="dept-btn dept-2" data-dept-target="dep2">
-          <span>E</span>
-        </a>
+          <!-- Círculo 2 (E) -->
+          <g class="dept-group" data-dept-target="dep2">
+            <circle
+              class="dept-circle"
+              cx="838"
+              cy="560"
+              r="90"
+            />
+            <text class="dept-text" x="838" y="560">E</text>
+          </g>
 
-        <a href="#" class="dept-btn dept-3" data-dept-target="dep3">
-          <span>C</span>
-        </a>
+          <!-- Círculo 3 (C) -->
+          <g class="dept-group" data-dept-target="dep3">
+            <circle
+              class="dept-circle"
+              cx="1292"
+              cy="590"
+              r="90"
+            />
+            <text class="dept-text" x="1292" y="590">C</text>
+          </g>
 
-        <a href="#" class="dept-btn dept-4" data-dept-target="dep4">
-          <span>e</span>
-        </a>
+          <!-- Círculo 4 (e) -->
+          <g class="dept-group" data-dept-target="dep4">
+            <circle
+              class="dept-circle"
+              cx="1554"
+              cy="715"
+              r="90"
+            />
+            <text class="dept-text" x="1554" y="715">e</text>
+          </g>
 
-        <a href="#" class="dept-btn dept-5" data-dept-target="dep5">
-          <span>D</span>
-        </a>
+          <!-- Círculo 5 (D) -->
+          <g class="dept-group" data-dept-target="dep5">
+            <circle
+              class="dept-circle"
+              cx="1853"
+              cy="557"
+              r="90"
+            />
+            <text class="dept-text" x="1853" y="557">D</text>
+          </g>
+        </svg>
       </div>
     </div>
 
@@ -239,7 +260,7 @@
       dep5: { titulo: "Domótica y Monitorización" }
     };
 
-    const deptButtons = document.querySelectorAll(".dept-btn");
+    const deptGroups = document.querySelectorAll(".dept-group");
     const panel = document.getElementById("dept-panel");
     const panelTitle = document.getElementById("dept-panel-title");
     const panelText = document.getElementById("dept-panel-text");
@@ -248,34 +269,34 @@
       const info = deptInfo[id];
       if (!info) return;
 
-      // Título del panel
       panelTitle.textContent = info.titulo;
-      // De momento solo mostramos el nombre; aquí luego pondremos contenido
-      panelText.textContent = "Panel de " + info.titulo + ". Aquí añadiremos fotos, productos y descripciones.";
+      panelText.textContent =
+        "Panel de " +
+        info.titulo +
+        ". Aquí añadiremos fotos, productos y descripciones.";
 
-      // Mostrar panel
       panel.style.display = "block";
 
-      // Marcar círculo activo
-      deptButtons.forEach(btn => {
-        const target = btn.getAttribute("data-dept-target");
-        btn.classList.toggle("dept-active", target === id);
+      // marcar círculo activo
+      deptGroups.forEach(g => {
+        const target = g.getAttribute("data-dept-target");
+        if (target === id) {
+          g.classList.add("dept-active");
+        } else {
+          g.classList.remove("dept-active");
+        }
       });
 
-      // Hacer scroll suave hasta el panel
       panel.scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
-    deptButtons.forEach(btn => {
-      btn.addEventListener("click", function (e) {
+    deptGroups.forEach(g => {
+      g.addEventListener("click", function (e) {
         e.preventDefault();
         const id = this.getAttribute("data-dept-target");
         abrirDepartamento(id);
       });
     });
-
-    // Opcional: abrir uno por defecto al cargar
-    // abrirDepartamento("dep1");
   </script>
 </body>
 </html>
