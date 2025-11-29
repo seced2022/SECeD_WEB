@@ -97,6 +97,35 @@
       display: block;
     }
 
+    /* PANEL LED ENCIMA DE LA GRÁFICA */
+
+    .dept-led {
+      width: 100%;
+      max-width: 700px;
+      margin: 0 auto 14px auto;
+      padding: 10px 16px;
+      border-radius: 9999px;
+      background: radial-gradient(circle at 20% 0%, #22c55e33, #020617);
+      border: 1px solid #16a34a;
+      box-shadow:
+        0 0 12px rgba(22, 163, 74, 0.6),
+        0 0 40px rgba(21, 128, 61, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .dept-led-text {
+      font-family: "Courier New", monospace;
+      font-size: 1rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #bbf7d0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
     /* CÍRCULOS DENTRO DEL SVG */
 
     .dept-group {
@@ -143,7 +172,7 @@
     .dept-panel-title {
       font-size: 1.4rem;
       margin-bottom: 8px;
-      text-align: center;
+      text-align: center; /* Título centrado */
     }
 
     .dept-panel-text {
@@ -156,8 +185,8 @@
   <!-- HEADER -->
   <header>
     <div class="logo">
-      <img src="LOGOS SILU GRISES (3).png" alt="" />
-      <span></span>
+      <img src="LOGOS SILU GRISES (3).png" alt="SECeD" />
+      <span>SECeD</span>
     </div>
     <nav>
       <a href="#inicio">Inicio</a>
@@ -171,7 +200,14 @@
 
     <!-- ZONA GRÁFICA CON SVG (IMAGEN + CÍRCULOS) -->
     <div id="departamentos" class="grafica-container">
-      <div class="grafica-title">I+D+i</div>
+      <div class="grafica-title">I+D+I</div>
+
+      <!-- PANEL LED DEPARTAMENTO ACTUAL -->
+      <div class="dept-led">
+        <div id="dept-led-text" class="dept-led-text">
+          PASE EL RATÓN SOBRE UN DEPARTAMENTO
+        </div>
+      </div>
 
       <div class="grafica-wrapper">
         <!-- IMPORTANTE: SILU.png debe estar en la misma carpeta que index.html -->
@@ -250,7 +286,7 @@
     </div>
   </main>
 
-  <!-- JS PARA CONTROLAR LOS CÍRCULOS Y EL PANEL -->
+  <!-- JS PARA CONTROLAR LOS CÍRCULOS, EL LED Y EL PANEL -->
   <script>
     // Mapeo de id interno -> nombre del departamento
     const deptInfo = {
@@ -265,10 +301,19 @@
     const panel = document.getElementById("dept-panel");
     const panelTitle = document.getElementById("dept-panel-title");
     const panelText = document.getElementById("dept-panel-text");
+    const ledText = document.getElementById("dept-led-text");
+
+    let activeDept = null;
+
+    function setLedMessage(msg) {
+      ledText.textContent = msg;
+    }
 
     function abrirDepartamento(id) {
       const info = deptInfo[id];
       if (!info) return;
+
+      activeDept = id;
 
       panelTitle.textContent = info.titulo;
       panelText.textContent =
@@ -288,14 +333,37 @@
         }
       });
 
+      // actualizar panel LED
+      setLedMessage(info.titulo);
+
       panel.scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
     deptGroups.forEach(g => {
+      const id = g.getAttribute("data-dept-target");
+
+      // clic (funciona bien en móvil)
       g.addEventListener("click", function (e) {
         e.preventDefault();
-        const id = this.getAttribute("data-dept-target");
         abrirDepartamento(id);
+      });
+
+      // hover (solo escritorio / ratón)
+      g.addEventListener("mouseenter", function () {
+        const info = deptInfo[id];
+        if (info) {
+          setLedMessage(info.titulo);
+        }
+      });
+
+      g.addEventListener("mouseleave", function () {
+        if (activeDept && deptInfo[activeDept]) {
+          // si hay un depto activo, volvemos a mostrar ese
+          setLedMessage(deptInfo[activeDept].titulo);
+        } else {
+          // si no hay nada activo, mensaje por defecto
+          setLedMessage("PASE EL RATÓN SOBRE UN DEPARTAMENTO");
+        }
       });
     });
   </script>
