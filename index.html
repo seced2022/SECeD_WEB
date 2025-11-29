@@ -36,6 +36,10 @@
       gap: 8px;
     }
 
+    .logo img {
+      height: 40px;
+    }
+
     .logo span {
       font-size: 1.2rem;
       font-weight: 600;
@@ -120,17 +124,17 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      font-size: 11px;
-      padding: 6px;
+      font-size: 18px;
+      font-weight: 600;
       text-decoration: none;
       cursor: pointer;
-      /* centramos el botón en las coordenadas top/left */
       transform: translate(-50%, -50%);
       transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
       box-shadow: 0 10px 30px rgba(8, 47, 73, 0.7);
     }
 
-    .dept-btn:hover {
+    .dept-btn:hover,
+    .dept-btn.dept-active {
       background: #0ea5e9;
       border-color: #f9fafb;
       transform: translate(-50%, -50%) scale(1.08);
@@ -141,22 +145,47 @@
       pointer-events: none;
     }
 
-    /* POSICIONES CALCULADAS A PARTIR DE TU PNG (porcentajes) */
+    /* POSICIONES DE LOS CÍRCULOS */
 
-    /* círculo más a la izquierda */
     .dept-1 { top: 55.3%; left: 20%; }
-
-    /* segundo círculo */
     .dept-2 { top: 38.7%; left: 40.9%; }
-
-    /* tercero (centro-derecha) */
     .dept-3 { top: 40.8%; left: 63.1%; }
-
-    /* cuarto */
     .dept-4 { top: 49.4%; left: 75.9%; }
-
-    /* quinto (más a la derecha) */
     .dept-5 { top: 38.5%; left: 90.5%; }
+
+    /* BOTONES DEPARTAMENTOS ABAJO DEL GRÁFICO */
+
+    .dept-selectors {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .dept-selector {
+      padding: 8px 14px;
+      border-radius: 9999px;
+      border: 1px solid #334155;
+      background: #020617;
+      color: #e5e7eb;
+      font-size: 0.85rem;
+      cursor: pointer;
+      text-transform: none;
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+    }
+
+    .dept-selector:hover {
+      background: #0f172a;
+      transform: translateY(-1px);
+    }
+
+    .dept-selector.dept-active {
+      background: #0ea5e9;
+      border-color: #f9fafb;
+      color: #020617;
+      font-weight: 600;
+    }
 
     /* SECCIONES DEPARTAMENTOS */
 
@@ -167,27 +196,55 @@
       border-radius: 16px;
       box-shadow: 0 10px 25px rgba(15, 23, 42, 0.8);
       border: 1px solid #1e293b;
+      display: none; /* se controlan por JS */
     }
 
     section.departamento h2 {
-      margin-bottom: 8px;
+      margin-bottom: 12px;
       font-size: 1.4rem;
     }
 
-    section.departamento p {
+    .dept-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+      gap: 20px;
+    }
+
+    .dept-layout-single {
+      display: block;
+    }
+
+    .dept-text {
       color: #9ca3af;
       line-height: 1.5;
       font-size: 0.95rem;
     }
+
+    .dept-gallery {
+      border-radius: 12px;
+      border: 1px dashed #334155;
+      min-height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #6b7280;
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 768px) {
+      .dept-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
   </style>
 </head>
 <body>
   <!-- HEADER -->
   <header>
     <div class="logo">
-      <!-- Pon aquí tu logo si quieres -->
-      <img src="LOGOS SILU GRISES (3).png" />
-      <span></span>
+      <img src="LOGOS SILU GRISES (3).png" alt="SECeD" />
+      <span>SECeD</span>
     </div>
     <nav>
       <a href="#inicio">Inicio</a>
@@ -207,62 +264,30 @@
         <!-- TU IMAGEN -->
         <img src="SILU.png" alt="Gráfica departamentos" class="grafica-image" />
 
-        <!-- BOTONES SOBRE CADA CÍRCULO -->
-
-        <a href="#dep1" class="dept-btn dept-1">
+        <!-- CÍRCULOS / BOTONES SOBRE LA IMAGEN -->
+        <a href="#dep1" class="dept-btn dept-1" data-dept-target="dep1">
           <span>S</span>
         </a>
 
-        <a href="#dep2" class="dept-btn dept-2">
+        <a href="#dep2" class="dept-btn dept-2" data-dept-target="dep2">
           <span>E</span>
         </a>
 
-        <a href="#dep3" class="dept-btn dept-3">
+        <a href="#dep3" class="dept-btn dept-3" data-dept-target="dep3">
           <span>C</span>
         </a>
 
-        <a href="#dep4" class="dept-btn dept-4">
+        <a href="#dep4" class="dept-btn dept-4" data-dept-target="dep4">
           <span>e</span>
         </a>
 
-        <a href="#dep5" class="dept-btn dept-5">
+        <a href="#dep5" class="dept-btn dept-5" data-dept-target="dep5">
           <span>D</span>
         </a>
       </div>
-    </div>
 
-    <!-- SECCIONES DESTINO (EDITA NOMBRES Y TEXTOS) -->
-
-    <section id="dep1" class="departamento">
-      <h2>Seguridad</h2>
-      <p></p>
-    </section>
-
-    <section id="dep2" class="departamento">
-      <h2>Equipos de Cronometraje</h2>
-      <p></p>
-    </section>
-
-    <section id="dep3" class="departamento">
-      <h2>Comunicaciones</h2>
-      <p></p>
-    </section>
-
-    <section id="dep4" class="departamento">
-      <h2>equipo Tecnico</h2>
-      <p></p>
-    </section>
-
-    <section id="dep5" class="departamento">
-      <h2>Domotica y Monitorización</h2>
-      <p></p>
-    </section>
-
-    <!-- Ancla de ejemplo para "Contacto" -->
-    <section id="contacto" class="departamento">
-      <h2>I+D+I</h2>
-      <p></p>
-    </section>
-  </main>
-</body>
-</html>
+      <!-- BOTONES DEPARTAMENTOS ABAJO -->
+      <div class="dept-selectors">
+        <button class="dept-selector" data-dept-target="dep1">Seguridad</button>
+        <button class="dept-selector" data-dept-target="dep2">Equipos de Cronometraje</button>
+        <button class="dept-selector" data-dept-ta
