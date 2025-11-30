@@ -367,10 +367,14 @@
       panelTitle.textContent = info.titulo;
 
       if (id === "dep1") {
-        // Panel especial para Seguridad con mini-gráfica de subdepartamentos (sin frase arriba)
+        // Panel especial para Seguridad con mini-gráfica de subdepartamentos
         panelText.innerHTML = `
           <div class="seg-diagram-wrapper">
             <svg class="seg-diagram-svg" viewBox="0 0 800 260" xmlns="http://www.w3.org/2000/svg">
+              <!-- Línea que une los 4 subdepartamentos -->
+              <line x1="100" y1="120" x2="700" y2="120"
+                    stroke="#38bdf8" stroke-width="4" stroke-opacity="0.4" />
+
               <!-- 1. Seguridad Aérea (drones) -->
               <g transform="translate(100, 120)">
                 <circle class="seg-circle" cx="0" cy="0" r="55" />
