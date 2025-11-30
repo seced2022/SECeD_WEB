@@ -83,11 +83,32 @@
       justify-content: center;
     }
 
+    /* Ventana de scroll del texto LED */
+    .dept-led-window {
+      width: 100%;
+      overflow: hidden;
+    }
+
+    /* Pista que se mueve de derecha a izquierda */
+    .dept-led-track {
+      display: inline-block;
+      white-space: nowrap;
+      animation: ledScroll 12s linear infinite;
+    }
+
+    @keyframes ledScroll {
+      0% {
+        transform: translateX(100%);
+      }
+      100% {
+        transform: translateX(-100%);
+      }
+    }
+
     .dept-led-text {
       font-size: 1.35rem;
       letter-spacing: 0.30em;
       text-transform: uppercase;
-      white-space: nowrap;
 
       background-image: radial-gradient(circle, #38bdf8 65%, transparent 66%);
       background-size: 7px 7px;
@@ -306,9 +327,13 @@
     <div id="departamentos" class="grafica-container">
       <div class="grafica-title"></div>
 
-      <!-- PANEL LED -->
+      <!-- PANEL LED CON SCROLL -->
       <div class="dept-led">
-        <div id="dept-led-text" class="dept-led-text">I + D + i</div>
+        <div class="dept-led-window">
+          <div class="dept-led-track">
+            <span id="dept-led-text" class="dept-led-text">I + D + i</span>
+          </div>
+        </div>
       </div>
 
       <!-- GRAFICA PRINCIPAL -->
