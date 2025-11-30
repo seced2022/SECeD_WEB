@@ -171,11 +171,11 @@ main {
       90deg,
       rgba(56, 189, 248, 0.25) 2%,
       transparent 2.5%,
-      transparent 97%,
+      transparent 70%,
       rgba(56, 189, 248, 0.25) 97.5%,
       rgba(56, 189, 248, 0.25)
     );
-  background-size: 80px 140px, 80px 140px, 80px 140px;
+  background-size: 60px 105px, 60px 105px, 60px 105px;
   background-position: 0 0, 0 0, 0 0;
 }
 
