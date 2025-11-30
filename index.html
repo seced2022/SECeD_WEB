@@ -5,36 +5,333 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SECeD</title>
 
-  <!-- Fuente tipo LED para toda la página -->
+  <!-- Fuente tipo matriz LED -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap">
 
-  <!-- ESTILOS -->
-  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* TODA LA WEB CON LA MISMA FUENTE LED */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "DotGothic16", monospace !important;
+    }
+
+    body {
+      background: #0b1120;
+      color: #e5e7eb;
+    }
+
+    /* HEADER */
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 24px;
+      background: #020617;
+      color: #ffffff;
+      border-bottom: 1px solid #1e293b;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo img {
+      height: 40px;
+    }
+
+    nav a {
+      margin-left: 16px;
+      color: #9ca3af;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+
+    nav a:hover {
+      color: #ffffff;
+    }
+
+    /* MAIN */
+
+    main {
+      padding: 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* PANEL LED SUPERIOR */
+
+    .dept-led {
+      width: 100%;
+      max-width: 720px;
+      margin: 0 auto 14px auto;
+      padding: 10px 18px;
+      border-radius: 14px;
+      background-color: #020617;
+      background-image: radial-gradient(circle, rgba(148, 163, 184, 0.22) 1px, transparent 1px);
+      background-size: 6px 6px;
+      border: 1px solid #0f172a;
+      box-shadow:
+        0 0 18px rgba(15, 23, 42, 0.9),
+        0 0 40px rgba(15, 23, 42, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Ventana de scroll del texto LED */
+    .dept-led-window {
+      width: 100%;
+      overflow: hidden;
+    }
+
+    /* Pista que se mueve de un lado a otro del panel */
+    .dept-led-track {
+      display: inline-block;
+      white-space: nowrap;
+      animation: ledScroll 10s linear infinite;
+    }
+
+    /* NUEVA ANIMACIÓN: derecha -> izquierda -> derecha */
+    @keyframes ledScroll {
+      0% {
+        transform: translateX(100%);
+      }
+      50% {
+        transform: translateX(-100%);
+      }
+      100% {
+        transform: translateX(100%);
+      }
+    }
+
+    .dept-led-text {
+      font-size: 1.35rem;
+      letter-spacing: 0.30em;
+      text-transform: uppercase;
+
+      background-image: radial-gradient(circle, #38bdf8 65%, transparent 66%);
+      background-size: 7px 7px;
+      background-repeat: repeat;
+
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+
+      text-shadow:
+        0 0 4px rgba(56, 189, 248, 0.9),
+        0 0 9px rgba(56, 189, 248, 0.8),
+        0 0 16px rgba(96, 165, 250, 0.7);
+
+      animation: ledGlow 2.5s ease-in-out infinite;
+    }
+
+    @keyframes ledGlow {
+      0%, 100% {
+        text-shadow:
+          0 0 4px rgba(56, 189, 248, 0.9),
+          0 0 9px rgba(56, 189, 248, 0.8),
+          0 0 16px rgba(96, 165, 250, 0.7);
+      }
+      50% {
+        text-shadow:
+          0 0 6px rgba(56, 189, 248, 1),
+          0 0 12px rgba(56, 189, 248, 1),
+          0 0 22px rgba(147, 197, 253, 0.9);
+      }
+    }
+
+    /* CONTENEDOR DE LA GRÁFICA PRINCIPAL */
+
+    .grafica-container {
+      position: relative;
+      margin: 0 auto;
+      max-width: 900px;
+      background: radial-gradient(circle at top, #1f2937, #020617);
+      border-radius: 24px;
+      padding: 16px 16px 32px;
+      box-shadow: 0 25px 50px rgba(15, 23, 42, 0.8);
+      border: 1px solid #1f2937;
+    }
+
+    .grafica-title {
+      font-size: 0.9rem;
+      letter-spacing: 0.18em;
+      color: #9ca3af;
+      margin-bottom: 12px;
+    }
+
+    .diagram-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* DEPARTAMENTOS PRINCIPALES */
+
+    .dept-group {
+      cursor: pointer;
+    }
+
+    .dept-circle {
+      fill: #020617;
+      stroke: #38bdf8;
+      stroke-width: 10;
+      filter: drop-shadow(0 8px 18px rgba(8, 47, 73, 0.9));
+      transition: stroke 0.2s ease, filter 0.2s ease;
+    }
+
+    .dept-group:hover .dept-circle,
+    .dept-group.dept-active .dept-circle {
+      stroke: #f1f5f9;
+      filter: drop-shadow(0 14px 30px rgba(56, 189, 248, 0.9));
+    }
+
+    .dept-text {
+      fill: #38bdf8;
+      font-size: 90px;
+      font-weight: 700;
+      text-anchor: middle;
+      text-shadow:
+        0 0 4px rgba(56, 189, 248, 0.9),
+        0 0 10px rgba(37, 99, 235, 0.8);
+      pointer-events: none;
+    }
+
+    /* PANEL INFERIOR */
+
+    .dept-panel {
+      margin: 32px auto 0;
+      max-width: 900px;
+      background: #020617;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.8);
+      border: 1px solid #1e293b;
+      padding: 20px 24px;
+    }
+
+    .dept-panel-title {
+      font-size: 1.4rem;
+      text-align: center;
+      min-height: 1.4rem;
+    }
+
+    .dept-panel-text {
+      font-size: 1rem;
+      color: #9ca3af;
+      text-align: center;
+    }
+
+    /* MINI GRÁFICAS SUBDEPARTAMENTOS */
+
+    .seg-diagram-wrapper {
+      margin-top: 10px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .seg-diagram-svg {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .seg-circle {
+      fill: #020617;
+      stroke: #38bdf8;
+      stroke-width: 4;
+      filter: drop-shadow(0 5px 12px rgba(8, 47, 73, 0.9));
+    }
+
+    .seg-group-active .seg-circle {
+      stroke: #f1f5f9;
+      filter: drop-shadow(0 10px 20px rgba(56, 189, 248, 0.9));
+    }
+
+    /* CÍRCULO DE LUZ ANIMADO (ARO) */
+    .seg-circle-glow {
+      fill: none;
+      stroke: #38bdf8;
+      stroke-width: 4;
+      stroke-linecap: round;
+      stroke-dasharray: 40 320;
+      stroke-dashoffset: 0;
+      animation: segRing 2.4s linear infinite;
+    }
+
+    @keyframes segRing {
+      to {
+        stroke-dashoffset: -360;
+      }
+    }
+
+    .seg-label {
+      fill: #38bdf8;
+      font-size: 13px;
+      text-anchor: middle;
+      text-shadow:
+        0 0 3px rgba(56, 189, 248, 0.9),
+        0 0 7px rgba(37, 99, 235, 0.8);
+    }
+
+    .seg-label-small {
+      font-size: 10px;
+    }
+
+    .seg-icon-stroke {
+      stroke: #38bdf8;
+      stroke-width: 3;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .seg-icon-fill {
+      fill: #38bdf8;
+      stroke: none;
+    }
+
+    .seg-info {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .seg-info h3 {
+      font-size: 1.1rem;
+    }
+
+    .seg-info p {
+      font-size: 0.95rem;
+      color: #9ca3af;
+      line-height: 1.5;
+    }
+  </style>
 </head>
 
 <body>
   <!-- HEADER -->
-  <header class="header">
-    <div class="header__logo">
-      <img src="LOGOS SILU GRISES (3).png" alt="SECeD">
-      <span></span>
+  <header>
+    <div class="logo">
+      <img src="LOGOS SILU GRISES (3).png" alt="SECeD" />
     </div>
-
-    <nav class="header__nav">
+    <nav>
       <a href="#inicio">Inicio</a>
       <a href="#departamentos">Usuario</a>
       <a href="#contacto">Contacto</a>
     </nav>
   </header>
 
-  <!-- CONTENIDO -->
-  <main class="main">
+  <main>
     <h1 id="inicio"></h1>
 
-    <!-- PANEL LED + GRÁFICA PRINCIPAL -->
     <div id="departamentos" class="grafica-container">
+      <div class="grafica-title"></div>
 
-      <!-- PANEL LED -->
+      <!-- PANEL LED CON SCROLL -->
       <div class="dept-led">
         <div class="dept-led-window">
           <div class="dept-led-track">
@@ -43,40 +340,37 @@
         </div>
       </div>
 
-      <!-- GRÁFICA PRINCIPAL SVG -->
-      <div class="diagram__wrapper">
-        <svg class="diagram__svg"
-             viewBox="0 0 2048 1447"
-             xmlns="http://www.w3.org/2000/svg">
+      <!-- GRAFICA PRINCIPAL -->
+      <div class="grafica-wrapper">
+        <svg class="diagram-svg" viewBox="0 0 2048 1447" xmlns="http://www.w3.org/2000/svg">
 
-          <!-- Imagen -->
-          <image href="SILU.png" width="2048" height="1447"></image>
+          <image href="SILU.png" x="0" y="0" width="2048" height="1447" />
 
-          <!-- CÍRCULOS DEPARTAMENTOS -->
-          <g class="dept-group" data-dept="dep1">
-            <circle class="big-circle" cx="410" cy="800" r="90" />
-            <text class="big-circle-text" x="410" y="800">S</text>
+          <g class="dept-group" data-dept-target="dep1">
+            <circle class="dept-circle" cx="410" cy="800" r="90" />
+            <text class="dept-text" x="410" y="800" dominant-baseline="middle">S</text>
           </g>
 
-          <g class="dept-group" data-dept="dep2">
-            <circle class="big-circle" cx="838" cy="560" r="90" />
-            <text class="big-circle-text" x="838" y="560">E</text>
+          <g class="dept-group" data-dept-target="dep2">
+            <circle class="dept-circle" cx="838" cy="560" r="90" />
+            <text class="dept-text" x="838" y="560" dominant-baseline="middle">E</text>
           </g>
 
-          <g class="dept-group" data-dept="dep3">
-            <circle class="big-circle" cx="1292" cy="590" r="90" />
-            <text class="big-circle-text" x="1292" y="590">C</text>
+          <g class="dept-group" data-dept-target="dep3">
+            <circle class="dept-circle" cx="1292" cy="590" r="90" />
+            <text class="dept-text" x="1292" y="590" dominant-baseline="middle">C</text>
           </g>
 
-          <g class="dept-group" data-dept="dep4">
-            <circle class="big-circle" cx="1554" cy="715" r="90" />
-            <text class="big-circle-text" x="1554" y="715">e</text>
+          <g class="dept-group" data-dept-target="dep4">
+            <circle class="dept-circle" cx="1554" cy="715" r="90" />
+            <text class="dept-text" x="1554" y="715" dominant-baseline="middle">e</text>
           </g>
 
-          <g class="dept-group" data-dept="dep5">
-            <circle class="big-circle" cx="1853" cy="557" r="90" />
-            <text class="big-circle-text" x="1853" y="557">D</text>
+          <g class="dept-group" data-dept-target="dep5">
+            <circle class="dept-circle" cx="1853" cy="557" r="90" />
+            <text class="dept-text" x="1853" y="557" dominant-baseline="middle">D</text>
           </g>
+
         </svg>
       </div>
     </div>
@@ -88,7 +382,800 @@
     </div>
   </main>
 
-  <!-- SCRIPT -->
-  <script src="scripts.js"></script>
+  <script>
+    const deptInfo = {
+      dep1: { titulo: "Seguridad" },
+      dep2: { titulo: "Equipos de Cronometraje" },
+      dep3: { titulo: "Comunicaciones" },
+      dep4: { titulo: "Estudio Técnico" },
+      dep5: { titulo: "Domótica y Monitorización" }
+    };
+
+    const segSubInfo = {
+      drones: {
+        titulo: "Seguridad Aérea (drones)",
+        texto: "Supervisión de tramos mediante drones."
+      },
+      control: {
+        titulo: "Control de Participantes",
+        texto: "Gestión del dorsal, verificaciones y estado del piloto."
+      },
+      gps: {
+        titulo: "Posicionamiento GPS",
+        texto: "Localización continua de los vehículos."
+      },
+      banderas: {
+        titulo: "Banderas Electrónicas",
+        texto: "Señalización digital en los tramos."
+      }
+    };
+
+    const cronoSubInfo = {
+      cronoimp: {
+        titulo: "CRONOIMPRESORAS",
+        texto: "Equipos de cronometraje con impresión de tiempos y registros de paso."
+      },
+      reloj: {
+        titulo: "RELOJ DE SALIDA",
+        texto: "Relojes de cuenta atrás y salida para tramos y especiales."
+      },
+      foto: {
+        titulo: "FOTOCELULAS",
+        texto: "Fotocélulas de precisión para salidas, metas e intermedios."
+      },
+      pancartas: {
+        titulo: "PANCARTAS",
+        texto: "Pancartas y displays de tiempos para zonas de público y asistencias."
+      }
+    };
+
+    const commSubInfo = {
+      lte: {
+        titulo: "LTE",
+        texto: "Enlaces 4G/LTE dedicados para transmisión de tiempos, vídeo y telemetría en tramos."
+      },
+      sat: {
+        titulo: "SATÉLITE",
+        texto: "Soluciones de comunicación vía satélite para zonas sin cobertura terrestre."
+      },
+      lora: {
+        titulo: "LORA",
+        texto: "Redes LORA de bajo consumo para telemetría, estados y señales distribuidas."
+      }
+    };
+
+    const estSubInfo = {
+      paneles: {
+        titulo: "Paneles LED Publicitarios",
+        texto: "Diseño e integración de paneles LED publicitarios para eventos y tramos."
+      },
+      reparacion: {
+        titulo: "Reparación de Equipos Electrónicos",
+        texto: "Servicio técnico para reparación y mantenimiento de equipos electrónicos de competición."
+      }
+    };
+
+    const domoSubInfo = {
+      humedad: {
+        titulo: "Sensores de Humedad",
+        texto: "Medición de humedad en suelo, ambiente o depósitos para control preciso."
+      },
+      agricultura: {
+        titulo: "Aplicaciones para Agricultura",
+        texto: "Soluciones de monitorización y control específico para entornos agrícolas."
+      },
+      hogar: {
+        titulo: "Hogar",
+        texto: "Domótica para viviendas: confort, seguridad y eficiencia energética."
+      },
+      aereos: {
+        titulo: "Recursos Aéreos",
+        texto: "Integración de recursos aéreos en sistemas de monitorización y domótica."
+      },
+      medidores: {
+        titulo: "Medidores de Valores",
+        texto: "Medición de variables como temperatura, presión o consumo en tiempo real."
+      }
+    };
+
+    const deptGroups = document.querySelectorAll(".dept-group");
+    const panelTitle = document.getElementById("dept-panel-title");
+    const panelText = document.getElementById("dept-panel-text");
+    const ledText = document.getElementById("dept-led-text");
+
+    const defaultLedMsg = "I + D + i";
+    let activeDept = null;
+
+    function setLedMessage(msg) {
+      // Texto una sola vez, con espacios a los lados para que tenga recorrido
+      const padded = "       " + msg + "       ";
+      ledText.textContent = padded;
+    }
+
+    // Mensaje inicial del panel LED
+    setLedMessage(defaultLedMsg);
+
+    /* -------- Mini panel de Seguridad -------- */
+
+    function setupSeguridadInteractions() {
+      const segGroups = panelText.querySelectorAll(".seg-group");
+      const segInfoDiv = panelText.querySelector("#seg-info");
+
+      function activarSub(subKey) {
+        segGroups.forEach(g => {
+          const k = g.getAttribute("data-sub");
+          g.classList.toggle("seg-group-active", k === subKey);
+        });
+
+        const info = segSubInfo[subKey];
+        if (info) {
+          segInfoDiv.innerHTML = `
+            <h3>${info.titulo}</h3>
+            <p>${info.texto}</p>
+          `;
+        }
+      }
+
+      segGroups.forEach(g => {
+        const subKey = g.getAttribute("data-sub");
+        g.addEventListener("click", () => activarSub(subKey));
+      });
+
+      segInfoDiv.innerHTML = `
+        <h3>Seguridad</h3>
+        <p>Seleccione un subdepartamento.</p>
+      `;
+    }
+
+    /* -------- Mini panel de Equipos de Cronometraje -------- */
+
+    function setupCronometrajeInteractions() {
+      const cronoGroups = panelText.querySelectorAll(".crono-group");
+      const cronoInfoDiv = panelText.querySelector("#crono-info");
+
+      function activarSubCrono(subKey) {
+        cronoGroups.forEach(g => {
+          const k = g.getAttribute("data-sub");
+          g.classList.toggle("seg-group-active", k === subKey);
+        });
+
+        const info = cronoSubInfo[subKey];
+        if (info) {
+          cronoInfoDiv.innerHTML = `
+            <h3>${info.titulo}</h3>
+            <p>${info.texto}</p>
+          `;
+        }
+      }
+
+      cronoGroups.forEach(g => {
+        const subKey = g.getAttribute("data-sub");
+        g.addEventListener("click", () => activarSubCrono(subKey));
+      });
+
+      cronoInfoDiv.innerHTML = `
+        <h3>Equipos de Cronometraje</h3>
+        <p>Seleccione un subdepartamento.</p>
+      `;
+    }
+
+    /* -------- Mini panel de Comunicaciones -------- */
+
+    function setupComunicacionesInteractions() {
+      const commGroups = panelText.querySelectorAll(".comm-group");
+      const commInfoDiv = panelText.querySelector("#comm-info");
+
+      function activarSubComm(subKey) {
+        commGroups.forEach(g => {
+          const k = g.getAttribute("data-sub");
+          g.classList.toggle("seg-group-active", k === subKey);
+        });
+
+        const info = commSubInfo[subKey];
+        if (info) {
+          commInfoDiv.innerHTML = `
+            <h3>${info.titulo}</h3>
+            <p>${info.texto}</p>
+          `;
+        }
+      }
+
+      commGroups.forEach(g => {
+        const subKey = g.getAttribute("data-sub");
+        g.addEventListener("click", () => activarSubComm(subKey));
+      });
+
+      commInfoDiv.innerHTML = `
+        <h3>Comunicaciones</h3>
+        <p>Seleccione un subdepartamento.</p>
+      `;
+    }
+
+    /* -------- Mini panel de Estudio Técnico -------- */
+
+    function setupEstudioTecnicoInteractions() {
+      const estGroups = panelText.querySelectorAll(".est-group");
+      const estInfoDiv = panelText.querySelector("#est-info");
+
+      function activarSubEst(subKey) {
+        estGroups.forEach(g => {
+          const k = g.getAttribute("data-sub");
+          g.classList.toggle("seg-group-active", k === subKey);
+        });
+
+        const info = estSubInfo[subKey];
+        if (info) {
+          estInfoDiv.innerHTML = `
+            <h3>${info.titulo}</h3>
+            <p>${info.texto}</p>
+          `;
+        }
+      }
+
+      estGroups.forEach(g => {
+        const subKey = g.getAttribute("data-sub");
+        g.addEventListener("click", () => activarSubEst(subKey));
+      });
+
+      estInfoDiv.innerHTML = `
+        <h3>Estudio Técnico</h3>
+        <p>Seleccione un subdepartamento.</p>
+      `;
+    }
+
+    /* -------- Mini panel de Domótica y Monitorización -------- */
+
+    function setupDomoticaInteractions() {
+      const domoGroups = panelText.querySelectorAll(".domo-group");
+      const domoInfoDiv = panelText.querySelector("#domo-info");
+
+      function activarSubDomo(subKey) {
+        domoGroups.forEach(g => {
+          const k = g.getAttribute("data-sub");
+          g.classList.toggle("seg-group-active", k === subKey);
+        });
+
+        const info = domoSubInfo[subKey];
+        if (info) {
+          domoInfoDiv.innerHTML = `
+            <h3>${info.titulo}</h3>
+            <p>${info.texto}</p>
+          `;
+        }
+      }
+
+      domoGroups.forEach(g => {
+        const subKey = g.getAttribute("data-sub");
+        g.addEventListener("click", () => activarSubDomo(subKey));
+      });
+
+      domoInfoDiv.innerHTML = `
+        <h3>Domótica y Monitorización</h3>
+        <p>Seleccione un subdepartamento.</p>
+      `;
+    }
+
+    /* -------- Panel inferior según departamento -------- */
+
+    function updatePanel(id) {
+      const info = deptInfo[id];
+      panelTitle.textContent = info.titulo;
+
+      if (id === "dep1") {
+        // SEGURIDAD
+        panelText.innerHTML = `
+          <div class="seg-diagram-wrapper">
+            <svg class="seg-diagram-svg" viewBox="0 0 800 320" xmlns="http://www.w3.org/2000/svg">
+
+              <line x1="100" y1="130" x2="700" y2="130"
+                stroke="#38bdf8" stroke-width="4" stroke-opacity="0.4" />
+
+              <!-- DRONES -->
+              <g class="seg-group" data-sub="drones" transform="translate(100,130)">
+                <circle class="seg-circle" cx="0" cy="0" r="55" />
+                <circle class="seg-circle-glow" cx="0" cy="0" r="55" />
+
+                <rect class="seg-icon-stroke" x="-18" y="-10" width="36" height="20" rx="4" />
+                <line class="seg-icon-stroke" x1="-35" y1="-20" x2="-10" y2="-10" />
+                <line class="seg-icon-stroke" x1="35" y1="-20" x2="10" y2="-10" />
+                <line class="seg-icon-stroke" x1="-35" y1="20" x2="-10" y2="10" />
+                <line class="seg-icon-stroke" x1="35" y1="20" x2="10" y2="10" />
+
+                <circle class="seg-icon-stroke" cx="-35" cy="-20" r="5" />
+                <circle class="seg-icon-stroke" cx="35" cy="-20" r="5" />
+                <circle class="seg-icon-stroke" cx="-35" cy="20" r="5" />
+                <circle class="seg-icon-stroke" cx="35" cy="20" r="5" />
+
+                <circle class="seg-icon-stroke" cx="0" cy="0" r="4" />
+
+                <text class="seg-label" x="0" y="90">Seguridad Aérea</text>
+                <text class="seg-label seg-label-small" x="0" y="112">(drones)</text>
+              </g>
+
+              <!-- CONTROL PARTICIPANTES -->
+              <g class="seg-group" data-sub="control" transform="translate(300,130)">
+                <circle class="seg-circle" cx="0" cy="0" r="55" />
+                <circle class="seg-circle-glow" cx="0" cy="0" r="55" />
+
+                <rect class="seg-icon-stroke" x="-22" y="-24" width="44" height="34" rx="4" />
+                <text x="0" y="-3" text-anchor="middle"
+                  fill="#38bdf8" font-size="18" font-weight="700">27</text>
+
+                <path class="seg-icon-stroke" d="M -18 18 Q 0 0 18 18" />
+                <path class="seg-icon-stroke" d="M -10 8 Q 0 2 10 8" />
+
+                <rect class="seg-icon-fill" x="22" y="-20" width="6" height="6" />
+                <rect class="seg-icon-stroke" x="28" y="-20" width="6" height="6" />
+                <rect class="seg-icon-stroke" x="22" y="-14" width="6" height="6" />
+                <rect class="seg-icon-fill" x="28" y="-14" width="6" height="6" />
+
+                <text class="seg-label" x="0" y="90">Control de</text>
+                <text class="seg-label seg-label-small" x="0" y="112">Participantes</text>
+              </g>
+
+              <!-- GPS -->
+              <g class="seg-group" data-sub="gps" transform="translate(500,130)">
+                <circle class="seg-circle" cx="0" cy="0" r="55" />
+                <circle class="seg-circle-glow" cx="0" cy="0" r="55" />
+
+                <path class="seg-icon-stroke" d="
+                  M 0 -28
+                  C -16 -28, -28 -16, -28 0
+                  C -28 14, 0 40, 0 40
+                  C 0 40, 28 14, 28 0
+                  C 28 -16, 16 -28, 0 -28 Z" />
+
+                <circle class="seg-icon-stroke" cx="0" cy="-10" r="8" />
+                <circle class="seg-icon-fill" cx="0" cy="42" r="3" />
+
+                <text class="seg-label" x="0" y="90">Posicionamiento</text>
+                <text class="seg-label seg-label-small" x="0" y="112">GPS</text>
+              </g>
+
+              <!-- BANDERAS -->
+              <g class="seg-group" data-sub="banderas" transform="translate(700,130)">
+                <circle class="seg-circle" cx="0" cy="0" r="55" />
+                <circle class="seg-circle-glow" cx="0" cy="0" r="55" />
+
+                <line class="seg-icon-stroke" x1="-18" y1="-30" x2="-18" y2="35" />
+                <path class="seg-icon-stroke" d="
+                  M -18 -30
+                  L 15 -22
+                  L -4 -10
+                  L 15 2
+                  L -18 10 Z" />
+
+                <text class="seg-label" x="0" y="90">Banderas</text>
+                <text class="seg-label seg-label-small" x="0" y="112">Electrónicas</text>
+              </g>
+
+            </svg>
+          </div>
+
+          <div id="seg-info" class="seg-info"></div>
+        `;
+
+        setupSeguridadInteractions();
+
+      } else if (id === "dep2") {
+        // EQUIPOS DE CRONOMETRAJE
+        panelText.innerHTML = `
+          <div class="seg-diagram-wrapper">
+            <svg class="seg-diagram-svg" viewBox="0 0 800 320" xmlns="http://www.w3.org/2000/svg">
+
+              <line x1="100" y1="130" x2="700" y2="130"
+                stroke="#38bdf8" stroke-width="4" stroke-opacity="0.4" />
+
+              <!-- CRONOIMPRESORAS -->
+              <g class="crono-group" data-sub="cronoimp" transform="translate(100,130)">
+                <circle class="seg-circle" cx="0" cy="0" r="55" />
+                <circle class="seg-circle-glow" cx="0" cy="0" r="55" />
+
+                <!-- Cuerpo impresora -->
+                <rect class="seg-icon-stroke" x="-24" y="-16" width="48" height="28" rx="4" />
+
+                <!-- Bandeja / tapa -->
+                <rect class="seg-icon-stroke" x="-20" y="-24" width="40" height="10" rx="2" />
+
+                <!-- Pantalla -->
+                <rect class="seg-icon-stroke" x="0" y="-12" width="14" height="8" rx="2" />
+                <rect class="seg-icon-fill" x="1" y="-11" width="12" height="6" rx="1" />
+
+                <!-- Botones LED laterales -->
+                <circle class="seg-icon-fill" cx="-18" cy="-5" r="3" />
+                <circle class="seg-icon-fill" cx="-18" cy="2" r="3" />
+                <circle class="seg-icon-fill" cx="-18" cy="9" r="3" />
+
+                <!-- Líneas de impresión -->
+                <line class="seg-icon-stroke" x1="-10" y1="0" x2="10" y2="0" />
+                <line class="seg-icon-stroke" x1="-10" y1="6" x2="6" y2="6" />
+
+                <text class="seg-label" x="0" y="90">CRONO</text>
+                <text class="seg-label seg-label-small" x="0" y="112">IMPRESORAS</text>
+              </g>
+
+              <!-- RELOJ DE SALIDA -->
+              <g class="crono-group" data-sub="reloj" transform="translate(300,130)">
+                <circle class="seg-circle" cx="0" cy="0" r="55" />
+                <circle class="seg-circle-glow" cx="0" cy="0" r="55" />
+
+                <!-- Reloj digital -->
+                <rect class="seg-icon-stroke" x="-24" y="-18" width="48" height="30" rx="4" />
+                <text x="0" y="-2" text-anchor="middle"
+                  fill="#38bdf8" font-size="14" font-weight="700">00:00</text>
+
+                <!-- Tres leds abajo -->
+                <circle class="seg-icon-fill" cx="-10" cy="14" r="2" />
+                <circle class="seg-icon-fill" cx="0" cy="14" r="2" />
+                <circle class="seg-icon-fill" cx="10" cy="14" r="2" />
+
+                <text class="seg-label" x="0" y="90">RELOJ DE</text>
+                <text class="seg-label seg-label-small" x="0" y="112">SALIDA</text>
+              </g>
+
+              <!-- FOTOCELULAS -->
+              <g class="crono-group" data-sub="foto" transform="translate(500,130)">
+                <circle class="seg-circle" cx="0" cy="0" r="55" />
+                <circle class="seg-circle-glow" cx="0" cy="0" r="55" />
+
+                <!-- Dos postes -->
+                <rect class="seg-icon-stroke" x="-24" y="-24" width="8" height="48" rx="2" />
+                <rect class="seg-icon-stroke" x="16" y="-24" width="8" height="48" rx="2" />
+
+                <!-- Sensores -->
+                <rect class="seg-icon-fill" x="-24" y="-6" width="8" height="6" />
+                <rect class="seg-icon-fill" x="16" y="-6" width="8" height="6" />
+
+                <!-- Haz -->
+                <line class="seg-icon-stroke" x1="-16" y1="-3" x2="16" y2="-3" />
+
+                <text class="seg-label" x="0" y="90">FOTOCELULAS</text>
+                <text class="seg-label seg-label-small" x="0" y="112"></text>
+              </g>
+
+              <!-- PANCARTAS -->
+              <g class="crono-group" data-sub="pancartas" transform="translate(700,130)">
+                <circle class="seg-circle" cx="0" cy="0" r="55" />
+                <circle class="seg-circle-glow" cx="0" cy="0" r="55" />
+
+                <!-- Círculo interior tipo pancarta -->
+                <circle class="seg-icon-stroke" cx="0" cy="0" r="28" />
+
+                <!-- Poste pequeño -->
+                <line class="seg-icon-stroke" x1="-10" y1="-12" x2="-10" y2="12" />
+
+                <!-- Bandera dentro del círculo -->
+                <path class="seg-icon-stroke" d="
+                  M -10 -12
+                  L 6 -9
+                  Q -4 -3 6 3
+                  L -10 6 Z
+                "/>
+
+                <text class="seg-label" x="0" y="90">PANCARTAS</text>
+                <text class="seg-label seg-label-small" x="0" y="112"></text>
+              </g>
+
+            </svg>
+          </div>
+
+          <div id="crono-info" class="seg-info"></div>
+        `;
+
+        setupCronometrajeInteractions();
+
+      } else if (id === "dep3") {
+        // COMUNICACIONES
+        panelText.innerHTML = `
+          <div class="seg-diagram-wrapper">
+            <svg class="seg-diagram-svg" viewBox="0 0 800 320" xmlns="http://www.w3.org/2000/svg">
+
+              <line x1="150" y1="130" x2="650" y2="130"
+                stroke="#38bdf8" stroke-width="4" stroke-opacity="0.4" />
+
+              <!-- LTE -->
+              <g class="comm-group" data-sub="lte" transform="translate(150,130)">
+                <circle class="seg-circle" cx="0" cy="0" r="55" />
+                <circle class="seg-circle-glow" cx="0" cy="0" r="55" />
+
+                <!-- Torre LTE -->
+                <line class="seg-icon-stroke" x1="0" y1="-24" x2="0" y2="24" />
+                <line class="seg-icon-stroke" x1="-8" y1="24" x2="8" y2="24" />
+                <line class="seg-icon-stroke" x1="-6" y1="10" x2="6" y2="10" />
+                <!-- Ondas -->
+                <path class="seg-icon-stroke" d="M -16 -14 Q 0 -26 16 -14" />
+                <path class="seg-icon-stroke" d="M -20 0 Q 0 -16 20 0" />
+                <path class="seg-icon-stroke" d="M -22 14 Q 0 0 22 14" />
+
+                <text class="seg-label" x="0" y="90">LTE</text>
+                <text class="seg-label seg-label-small" x="0" y="112"></text>
+              </g>
+
+              <!-- SATÉLITE -->
+              <g class="comm-group" data-sub="sat" transform="translate(400,130)">
+                <circle class="seg-circle" cx="0" cy="0" r="55" />
+                <circle class="seg-circle-glow" cx="0" cy="0" r="55" />
+
+                <!-- Cuerpo del satélite -->
+                <rect class="seg-icon-stroke" x="-8" y="-8" width="16" height="16" rx="2" />
+                <!-- Paneles -->
+                <rect class="seg-icon-stroke" x="-30" y="-6" width="16" height="12" />
+                <rect class="seg-icon-stroke" x="14" y="-6" width="16" height="12" />
+                <!-- Antena -->
+                <line class="seg-icon-stroke" x1="0" y1="8" x2="0" y2="22" />
+                <circle class="seg-icon-fill" cx="0" cy="24" r="2" />
+                <!-- Ondas hacia abajo -->
+                <path class="seg-icon-stroke" d="M 2 12 Q 10 16 14 22" />
+                <path class="seg-icon-stroke" d="M -2 12 Q -10 16 -14 22" />
+
+                <text class="seg-label" x="0" y="90">SATÉLITE</text>
+                <text class="seg-label seg-label-small" x="0" y="112"></text>
+              </g>
+
+              <!-- LORA -->
+              <g class="comm-group" data-sub="lora" transform="translate(650,130)">
+                <circle class="seg-circle" cx="0" cy="0" r="55" />
+                <circle class="seg-circle-glow" cx="0" cy="0" r="55" />
+
+                <!-- Antena central -->
+                <line class="seg-icon-stroke" x1="0" y1="-18" x2="0" y2="20" />
+                <circle class="seg-icon-fill" cx="0" cy="-18" r="3" />
+                <!-- Ondas LORA (ambos lados) -->
+                <path class="seg-icon-stroke" d="M -8 -6 Q -16 0 -20 8" />
+                <path class="seg-icon-stroke" d="M 8 -6 Q 16 0 20 8" />
+                <path class="seg-icon-stroke" d="M -10 4 Q -20 10 -24 18" />
+                <path class="seg-icon-stroke" d="M 10 4 Q 20 10 24 18" />
+
+                <text class="seg-label" x="0" y="90">LORA</text>
+                <text class="seg-label seg-label-small" x="0" y="112"></text>
+              </g>
+
+            </svg>
+          </div>
+
+          <div id="comm-info" class="seg-info"></div>
+        `;
+
+        setupComunicacionesInteractions();
+
+      } else if (id === "dep4") {
+        // ESTUDIO TÉCNICO
+        panelText.innerHTML = `
+          <div class="seg-diagram-wrapper">
+            <svg class="seg-diagram-svg" viewBox="0 0 800 320" xmlns="http://www.w3.org/2000/svg">
+
+              <line x1="200" y1="130" x2="600" y2="130"
+                stroke="#38bdf8" stroke-width="4" stroke-opacity="0.4" />
+
+              <!-- PANELES LED PUBLICITARIOS -->
+              <g class="est-group" data-sub="paneles" transform="translate(200,130)">
+                <circle class="seg-circle" cx="0" cy="0" r="55" />
+                <circle class="seg-circle-glow" cx="0" cy="0" r="55" />
+
+                <!-- Mástil -->
+                <line class="seg-icon-stroke" x1="0" y1="-18" x2="0" y2="22" />
+                <line class="seg-icon-stroke" x1="-8" y1="22" x2="8" y2="22" />
+
+                <!-- Panel rectangular -->
+                <rect class="seg-icon-stroke" x="-26" y="-40" width="52" height="18" rx="2" />
+                <!-- “Píxeles” LED (líneas) -->
+                <line class="seg-icon-stroke" x1="-22" y1="-35" x2="22" y2="-35" />
+                <line class="seg-icon-stroke" x1="-22" y1="-30" x2="22" y2="-30" />
+                <line class="seg-icon-stroke" x1="-22" y1="-25" x2="10" y2="-25" />
+
+                <text class="seg-label" x="0" y="90">Paneles LED</text>
+                <text class="seg-label seg-label-small" x="0" y="112">Publicitarios</text>
+              </g>
+
+              <!-- REPARACIÓN DE EQUIPOS ELECTRÓNICOS -->
+              <g class="est-group" data-sub="reparacion" transform="translate(600,130)">
+                <circle class="seg-circle" cx="0" cy="0" r="55" />
+                <circle class="seg-circle-glow" cx="0" cy="0" r="55" />
+
+                <!-- Placa / chip -->
+                <rect class="seg-icon-stroke" x="-18" y="-18" width="28" height="28" rx="4" />
+                <!-- Patillas -->
+                <line class="seg-icon-stroke" x1="-22" y1="-12" x2="-18" y2="-12" />
+                <line class="seg-icon-stroke" x1="-22" y1="-4" x2="-18" y2="-4" />
+                <line class="seg-icon-stroke" x1="-22" y1="4" x2="-18" y2="4" />
+                <line class="seg-icon-stroke" x1="10"  y1="-12" x2="14" y2="-12" />
+                <line class="seg-icon-stroke" x1="10"  y1="-4"  x2="14" y2="-4" />
+                <line class="seg-icon-stroke" x1="10"  y1="4"  x2="14" y2="4" />
+
+                <!-- Llave inglesa cruzando -->
+                <path class="seg-icon-stroke" d="
+                  M -6 14
+                  L 8 0
+                  L 12 4
+                  L -2 18
+                  Z
+                " />
+
+                <text class="seg-label" x="0" y="90">Reparación de</text>
+                <text class="seg-label seg-label-small" x="0" y="112">Equipos Electrónicos</text>
+              </g>
+
+            </svg>
+          </div>
+
+          <div id="est-info" class="seg-info"></div>
+        `;
+
+        setupEstudioTecnicoInteractions();
+
+      } else if (id === "dep5") {
+        // DOMÓTICA Y MONITORIZACIÓN
+        panelText.innerHTML = `
+          <div class="seg-diagram-wrapper">
+            <svg class="seg-diagram-svg" viewBox="0 0 800 340" xmlns="http://www.w3.org/2000/svg">
+
+              <line x1="100" y1="140" x2="700" y2="140"
+                stroke="#38bdf8" stroke-width="4" stroke-opacity="0.35" />
+
+              <!-- SENSORES DE HUMEDAD -->
+              <g class="domo-group" data-sub="humedad" transform="translate(100,140)">
+                <circle class="seg-circle" cx="0" cy="0" r="50" />
+                <circle class="seg-circle-glow" cx="0" cy="0" r="50" />
+
+                <!-- Gota -->
+                <path class="seg-icon-stroke" d="
+                  M 0 -20
+                  C -10 -4 -14 0 -14 10
+                  C -14 22 -4 30 0 30
+                  C 4 30 14 22 14 10
+                  C 14 0 10 -4 0 -20 Z
+                " />
+                <!-- Línea de sensor -->
+                <line class="seg-icon-stroke" x1="-18" y1="-4" x2="-30" y2="-4" />
+                <circle class="seg-icon-fill" cx="-30" cy="-4" r="2" />
+
+                <text class="seg-label" x="0" y="78">Sensores de</text>
+                <text class="seg-label seg-label-small" x="0" y="98">Humedad</text>
+              </g>
+
+              <!-- APLICACIONES PARA AGRICULTURA -->
+              <g class="domo-group" data-sub="agricultura" transform="translate(250,140)">
+                <circle class="seg-circle" cx="0" cy="0" r="50" />
+                <circle class="seg-circle-glow" cx="0" cy="0" r="50" />
+
+                <!-- Dispositivo (tablet/móvil) -->
+                <rect class="seg-icon-stroke" x="-18" y="-26" width="36" height="40" rx="4" />
+                <circle class="seg-icon-fill" cx="0" cy="11" r="2" />
+
+                <!-- Planta -->
+                <path class="seg-icon-stroke" d="
+                  M 0 6
+                  L 0 -10
+                " />
+                <path class="seg-icon-stroke" d="
+                  M 0 -4
+                  C -6 -8 -10 -10 -12 -14
+                " />
+                <path class="seg-icon-stroke" d="
+                  M 0 -4
+                  C 6 -8 10 -10 12 -14
+                " />
+
+                <text class="seg-label" x="0" y="78">Aplicaciones</text>
+                <text class="seg-label seg-label-small" x="0" y="98">para Agricultura</text>
+              </g>
+
+              <!-- HOGAR -->
+              <g class="domo-group" data-sub="hogar" transform="translate(400,140)">
+                <circle class="seg-circle" cx="0" cy="0" r="50" />
+                <circle class="seg-circle-glow" cx="0" cy="0" r="50" />
+
+                <!-- Casa -->
+                <path class="seg-icon-stroke" d="
+                  M -16 10
+                  L -16 -6
+                  L 0 -18
+                  L 16 -6
+                  L 16 10
+                  Z
+                " />
+                <rect class="seg-icon-stroke" x="-10" y="-2" width="8" height="12" />
+                <rect class="seg-icon-stroke" x="2" y="0" width="8" height="8" />
+
+                <!-- Wifi -->
+                <path class="seg-icon-stroke" d="M -4 -20 Q 0 -24 4 -20" />
+                <path class="seg-icon-stroke" d="M -6 -24 Q 0 -28 6 -24" />
+                <circle class="seg-icon-fill" cx="0" cy="-18" r="2" />
+
+                <text class="seg-label" x="0" y="78">Hogar</text>
+                <text class="seg-label seg-label-small" x="0" y="98"></text>
+              </g>
+
+              <!-- RECURSOS AÉREOS -->
+              <g class="domo-group" data-sub="aereos" transform="translate(550,140)">
+                <circle class="seg-circle" cx="0" cy="0" r="50" />
+                <circle class="seg-circle-glow" cx="0" cy="0" r="50" />
+
+                <!-- Pequeño dron / recurso aéreo -->
+                <rect class="seg-icon-stroke" x="-10" y="-6" width="20" height="12" rx="3" />
+                <line class="seg-icon-stroke" x1="-24" y1="-10" x2="-10" y2="-6" />
+                <line class="seg-icon-stroke" x1="24" y1="-10" x2="10" y2="-6" />
+                <circle class="seg-icon-stroke" cx="-24" cy="-10" r="4" />
+                <circle class="seg-icon-stroke" cx="24" cy="-10" r="4" />
+                <circle class="seg-icon-fill" cx="0" cy="0" r="3" />
+                <!-- Trayectoria / recurso -->
+                <path class="seg-icon-stroke" d="M -26 16 Q 0 26 26 16" />
+
+                <text class="seg-label" x="0" y="78">Recursos</text>
+                <text class="seg-label seg-label-small" x="0" y="98">Aéreos</text>
+              </g>
+
+              <!-- MEDIDORES DE VALORES -->
+              <g class="domo-group" data-sub="medidores" transform="translate(700,140)">
+                <circle class="seg-circle" cx="0" cy="0" r="50" />
+                <circle class="seg-circle-glow" cx="0" cy="0" r="50" />
+
+                <!-- Esfera de medidor -->
+                <circle class="seg-icon-stroke" cx="0" cy="0" r="20" />
+                <!-- Aguja -->
+                <line class="seg-icon-stroke" x1="0" y1="0" x2="14" y2="-6" />
+                <circle class="seg-icon-fill" cx="0" cy="0" r="2" />
+                <!-- Marcas -->
+                <line class="seg-icon-stroke" x1="-14" y1="0" x2="-10" y2="0" />
+                <line class="seg-icon-stroke" x1="0" y1="-14" x2="0" y2="-10" />
+                <line class="seg-icon-stroke" x1="10" y1="10" x2="14" y2="14" />
+
+                <text class="seg-label" x="0" y="78">Medidores de</text>
+                <text class="seg-label seg-label-small" x="0" y="98">Valores</text>
+              </g>
+
+            </svg>
+          </div>
+
+          <div id="domo-info" class="seg-info"></div>
+        `;
+
+        setupDomoticaInteractions();
+
+      } else {
+        panelText.textContent =
+          "Panel de " + info.titulo + ". Aquí añadiremos contenido.";
+      }
+    }
+
+    function clearPanel() {
+      panelTitle.textContent = "";
+      panelText.textContent = "";
+    }
+
+    /* -------- Selección de departamentos -------- */
+
+    deptGroups.forEach(g => {
+      const id = g.getAttribute("data-dept-target");
+
+      g.addEventListener("click", e => {
+        e.preventDefault();
+        activeDept = id;
+        updatePanel(id);
+        setLedMessage(deptInfo[id].titulo);
+
+        deptGroups.forEach(d =>
+          d.classList.toggle("dept-active",
+            d.getAttribute("data-dept-target") === id)
+        );
+      });
+
+      g.addEventListener("mouseenter", () => {
+        setLedMessage(deptInfo[id].titulo);
+        updatePanel(id);
+      });
+
+      g.addEventListener("mouseleave", () => {
+        if (activeDept) {
+          setLedMessage(deptInfo[activeDept].titulo);
+          updatePanel(activeDept);
+        } else {
+          setLedMessage(defaultLedMsg);
+          clearPanel();
+        }
+      });
+    });
+  </script>
+
 </body>
 </html>
