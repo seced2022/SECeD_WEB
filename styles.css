@@ -1,49 +1,58 @@
+/* TODA LA WEB CON LA MISMA FUENTE LED */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: "DotGothic16", monospace !important;
+}
+
+body {
+  background: #0b1120;
+  color: #e5e7eb;
 }
 
 /* HEADER */
 
-.header {
+header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 12px 24px;
-  background: #101827;
+  background: #020617;
   color: #ffffff;
+  border-bottom: 1px solid #1e293b;
 }
 
-.header__logo img {
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo img {
   height: 40px;
 }
 
-.header__logo span {
-  font-size: 1.4rem;
-  font-weight: 600;
-}
-
-.header__nav a {
+nav a {
   margin-left: 16px;
-  color: #e5e7eb;
+  color: #9ca3af;
   text-decoration: none;
   font-size: 0.95rem;
 }
 
-.header__nav a:hover {
+nav a:hover {
   color: #ffffff;
-  text-decoration: underline;
 }
 
 /* MAIN */
 
-.main {
+main {
   padding: 24px;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
-/* PANEL LED ENCIMA DE LA GRÁFICA (ESTILO MATRIZ) */
+/* PANEL LED SUPERIOR */
 
 .dept-led {
   width: 100%;
@@ -52,9 +61,7 @@
   padding: 10px 18px;
   border-radius: 14px;
   background-color: #020617;
-  /* patrón de puntitos tipo matriz LED */
-  background-image:
-    radial-gradient(circle, rgba(148, 163, 184, 0.24) 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(148, 163, 184, 0.22) 1px, transparent 1px);
   background-size: 6px 6px;
   border: 1px solid #0f172a;
   box-shadow:
@@ -65,26 +72,45 @@
   justify-content: center;
 }
 
-/* Texto estilo panel LED AZUL con puntos */
-.dept-led-text {
-  font-family: "Courier New", monospace;
-  font-size: 1.35rem;       /* más grande */
-  letter-spacing: 0.30em;   /* más separado */
-  text-transform: uppercase;
-  white-space: nowrap;
+/* Ventana de scroll del texto LED */
+.dept-led-window {
+  width: 100%;
   overflow: hidden;
-  text-overflow: ellipsis;
+}
 
-  /* patrón de puntos azules tipo LED */
+/* Pista que se mueve de un lado a otro del panel */
+.dept-led-track {
+  display: inline-block;
+  white-space: nowrap;
+  animation: ledScroll 10s linear infinite;
+}
+
+/* NUEVA ANIMACIÓN: derecha -> izquierda -> derecha */
+@keyframes ledScroll {
+  0% {
+    transform: translateX(100%);
+  }
+  50% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.dept-led-text {
+  font-size: 1.35rem;
+  letter-spacing: 0.30em;
+  text-transform: uppercase;
+
   background-image: radial-gradient(circle, #38bdf8 65%, transparent 66%);
-  background-size: 7px 7px;   /* puntos más grandes */
+  background-size: 7px 7px;
   background-repeat: repeat;
 
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 
-  /* halo azul alrededor de los puntos */
   text-shadow:
     0 0 4px rgba(56, 189, 248, 0.9),
     0 0 9px rgba(56, 189, 248, 0.8),
@@ -93,7 +119,6 @@
   animation: ledGlow 2.5s ease-in-out infinite;
 }
 
-/* parpadeo suave del brillo azul */
 @keyframes ledGlow {
   0%, 100% {
     text-shadow:
@@ -109,170 +134,244 @@
   }
 }
 
+/* CONTENEDOR DE LA GRÁFICA PRINCIPAL */
 
-/* Diagrama */
-
-.diagram {
-  text-align: center;
-  margin-bottom: 40px;
-}
-
-.diagram h1 {
-  margin-bottom: 16px;
-  font-size: 1.8rem;
-}
-
-/* AQUÍ ES DONDE VA EL “RECUADRO DE LA GRÁFICA” */
-.diagram__wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow-x: auto;
-
-  /* nuevo: recuadro con fondo tipo panel */
+.grafica-container {
   position: relative;
-  padding: 16px;
+  margin: 0 auto;
+  max-width: 900px;
+
+  /* marco igual que antes */
   border-radius: 24px;
-  background: #020617;
+  padding: 16px 16px 32px;
   box-shadow: 0 25px 50px rgba(15, 23, 42, 0.8);
   border: 1px solid #1f2937;
-}
 
-/* Malla hexagonal azul suave */
-.diagram__wrapper::before {
-  content: "";
-  position: absolute;
-  inset: -40px;
-  pointer-events: none;
+  /* fondo base oscuro + malla hexagonal azul */
+  background-color: #020617;
+  overflow: hidden;
 
-  /* “malla” de puntos desfasados que simula hexágonos */
   background-image:
-    radial-gradient(circle, rgba(56, 189, 248, 0.28) 1px, transparent 1px),
-    radial-gradient(circle, rgba(56, 189, 248, 0.18) 1px, transparent 1px);
-  background-size: 26px 46px, 26px 46px;
-  background-position: 0 0, 13px 23px;
-
-  mix-blend-mode: screen;
-  opacity: 0.55;
-  animation: hexDrift 22s linear infinite;
+    /* primera capa del patrón */
+    linear-gradient(
+      30deg,
+      rgba(56, 189, 248, 0.24) 12%,
+      transparent 12.5%,
+      transparent 87%,
+      rgba(56, 189, 248, 0.04) 87.5%,
+      rgba(56, 189, 248, 0.24)
+    ),
+    /* segunda capa desplazada para cerrar el hexágono */
+    linear-gradient(
+      150deg,
+      rgba(37, 99, 235, 0.22) 12%,
+      transparent 12.5%,
+      transparent 87%,
+      rgba(37, 99, 235, 0.04) 87.5%,
+      rgba(37, 99, 235, 0.22)
+    ),
+    /* degradado suave de fondo para que no se vea plano */
+    radial-gradient(circle at top, #111827, #020617 65%);
+  background-size:
+    80px 140px,
+    80px 140px,
+    100% 100%;
+  background-position:
+    0 0,
+    40px 70px,
+    0 0;
 }
 
-/* Zonas irregulares que se iluminan / oscurecen suavemente */
-.diagram__wrapper::after {
+/* Brillo suave que se mueve por la malla, para que no sea plano */
+.grafica-container::before {
   content: "";
   position: absolute;
   inset: -20%;
   pointer-events: none;
-
-  background-image:
-    radial-gradient(circle at 20% 30%, rgba(15, 118, 230, 0.5) 0, transparent 55%),
-    radial-gradient(circle at 75% 20%, rgba(56, 189, 248, 0.45) 0, transparent 52%),
-    radial-gradient(circle at 60% 75%, rgba(37, 99, 235, 0.45) 0, transparent 50%),
-    radial-gradient(circle at 10% 80%, rgba(15, 23, 42, 0.95) 0, transparent 55%),
-    radial-gradient(circle at 85% 60%, rgba(15, 23, 42, 0.95) 0, transparent 55%);
-
-  opacity: 0.22;
   mix-blend-mode: screen;
-  animation: hexPulse 18s ease-in-out infinite alternate;
+
+  background:
+    radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.45), transparent 55%),
+    radial-gradient(circle at 80% 70%, rgba(37, 99, 235, 0.50), transparent 60%),
+    radial-gradient(circle at 30% 85%, rgba(59, 130, 246, 0.35), transparent 55%);
+
+  opacity: 0.15;
+  animation: hexGlow 12s ease-in-out infinite alternate;
 }
 
-/* SVG */
+@keyframes hexGlow {
+  0% {
+    opacity: 0.12;
+    transform: translate3d(-4%, -2%, 0) scale(1);
+  }
+  50% {
+    opacity: 0.35;
+    transform: translate3d(8%, 6%, 0) scale(1.04);
+  }
+  100% {
+    opacity: 0.20;
+    transform: translate3d(-6%, 10%, 0) scale(1.02);
+  }
+}
 
-.diagram__svg {
-  max-width: 100%;
-  height: auto;
-
-  /* nuevo: aseguramos que va por encima del fondo y efectos */
+/* Aseguramos que el contenido esté por encima del brillo */
+.grafica-container > * {
   position: relative;
   z-index: 1;
 }
 
-/* Líneas del diagrama */
-
-.line {
-  stroke: #9ca3af;
-  stroke-width: 2;
+.grafica-title {
+  font-size: 0.9rem;
+  letter-spacing: 0.18em;
+  color: #9ca3af;
+  margin-bottom: 12px;
 }
 
-/* Círculos */
-
-.circle {
-  fill: #1f2937;
-  stroke: #3b82f6;
-  stroke-width: 2;
+.diagram-svg {
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
-.circle--center {
-  fill: #3b82f6;
-  stroke: #1f2937;
-}
+/* DEPARTAMENTOS PRINCIPALES */
 
-.circle--dept {
+.dept-group {
   cursor: pointer;
-  transition: transform 0.2s ease, fill 0.2s ease;
 }
 
-.circle--dept:hover {
-  transform: scale(1.05);
-  fill: #2563eb;
+.dept-circle {
+  fill: #020617;
+  stroke: #38bdf8;
+  stroke-width: 10;
+  filter: drop-shadow(0 8px 18px rgba(8, 47, 73, 0.9));
+  transition: stroke 0.2s ease, filter 0.2s ease;
 }
 
-/* Texto dentro de los círculos */
+.dept-group:hover .dept-circle,
+.dept-group.dept-active .dept-circle {
+  stroke: #f1f5f9;
+  filter: drop-shadow(0 14px 30px rgba(56, 189, 248, 0.9));
+}
 
-.circle__text {
-  fill: #ffffff;
-  font-size: 24px;
+.dept-text {
+  fill: #38bdf8;
+  font-size: 90px;
+  font-weight: 700;
   text-anchor: middle;
-  dominant-baseline: middle;
-  pointer-events: none; /* Para que el texto no interfiera con el click del círculo */
+  text-shadow:
+    0 0 4px rgba(56, 189, 248, 0.9),
+    0 0 10px rgba(37, 99, 235, 0.8);
+  pointer-events: none;
 }
 
-.circle__text--small {
+/* PANEL INFERIOR */
+
+.dept-panel {
+  margin: 32px auto 0;
+  max-width: 900px;
+  background: #020617;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.8);
+  border: 1px solid #1e293b;
+  padding: 20px 24px;
+}
+
+.dept-panel-title {
+  font-size: 1.4rem;
+  text-align: center;
+  min-height: 1.4rem;
+}
+
+.dept-panel-text {
+  font-size: 1rem;
+  color: #9ca3af;
+  text-align: center;
+}
+
+/* MINI GRÁFICAS SUBDEPARTAMENTOS */
+
+.seg-diagram-wrapper {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+}
+
+.seg-diagram-svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.seg-circle {
+  fill: #020617;
+  stroke: #38bdf8;
+  stroke-width: 4;
+  filter: drop-shadow(0 5px 12px rgba(8, 47, 73, 0.9));
+}
+
+.seg-group-active .seg-circle,
+.crono-group.seg-group-active .seg-circle,
+.comm-group.seg-group-active .seg-circle,
+.est-group.seg-group-active .seg-circle,
+.domo-group.seg-group-active .seg-circle {
+  stroke: #f1f5f9;
+  filter: drop-shadow(0 10px 20px rgba(56, 189, 248, 0.9));
+}
+
+/* CÍRCULO DE LUZ ANIMADO (ARO) */
+.seg-circle-glow {
+  fill: none;
+  stroke: #38bdf8;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-dasharray: 40 320;
+  stroke-dashoffset: 0;
+  animation: segRing 2.4s linear infinite;
+}
+
+@keyframes segRing {
+  to {
+    stroke-dashoffset: -360;
+  }
+}
+
+.seg-label {
+  fill: #38bdf8;
+  font-size: 13px;
+  text-anchor: middle;
+  text-shadow:
+    0 0 3px rgba(56, 189, 248, 0.9),
+    0 0 7px rgba(37, 99, 235, 0.8);
+}
+
+.seg-label-small {
   font-size: 10px;
 }
 
-/* Secciones de contenido */
-
-.section {
-  margin-top: 40px;
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: left;
+.seg-icon-stroke {
+  stroke: #38bdf8;
+  stroke-width: 3;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
-.section h2 {
-  margin-bottom: 8px;
-  font-size: 1.5rem;
+.seg-icon-fill {
+  fill: #38bdf8;
+  stroke: none;
 }
 
-.section p {
-  color: #4b5563;
+.seg-info {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.seg-info h3 {
+  font-size: 1.1rem;
+}
+
+.seg-info p {
+  font-size: 0.95rem;
+  color: #9ca3af;
   line-height: 1.5;
-}
-
-/* ANIMACIONES DEL FONDO HEXAGONAL */
-
-@keyframes hexDrift {
-  0% {
-    transform: translate3d(0, 0, 0);
-  }
-  100% {
-    transform: translate3d(-40px, -20px, 0);
-  }
-}
-
-@keyframes hexPulse {
-  0% {
-    opacity: 0.12;
-  }
-  40% {
-    opacity: 0.32;
-  }
-  70% {
-    opacity: 0.18;
-  }
-  100% {
-    opacity: 0.28;
-  }
 }
