@@ -229,7 +229,7 @@
 
     .seg-label {
       fill: #38bdf8;
-      font-size: 14px;
+      font-size: 13px;
       text-anchor: middle;
       text-shadow:
         0 0 3px rgba(56, 189, 248, 0.9),
@@ -237,7 +237,7 @@
     }
 
     .seg-label-small {
-      font-size: 11px;
+      font-size: 10px;
     }
 
     .seg-icon-stroke {
@@ -296,33 +296,33 @@
 
       <!-- GRAFICA PRINCIPAL -->
       <div class="grafica-wrapper">
-        <svg class="diagram-svg" viewBox="0 0 2048 1447">
+        <svg class="diagram-svg" viewBox="0 0 2048 1447" xmlns="http://www.w3.org/2000/svg">
 
           <image href="SILU.png" x="0" y="0" width="2048" height="1447" />
 
           <g class="dept-group" data-dept-target="dep1">
             <circle class="dept-circle" cx="410" cy="800" r="90" />
-            <text class="dept-text" x="410" y="800">S</text>
+            <text class="dept-text" x="410" y="800" dominant-baseline="middle">S</text>
           </g>
 
           <g class="dept-group" data-dept-target="dep2">
             <circle class="dept-circle" cx="838" cy="560" r="90" />
-            <text class="dept-text" x="838" y="560">E</text>
+            <text class="dept-text" x="838" y="560" dominant-baseline="middle">E</text>
           </g>
 
           <g class="dept-group" data-dept-target="dep3">
             <circle class="dept-circle" cx="1292" cy="590" r="90" />
-            <text class="dept-text" x="1292" y="590">C</text>
+            <text class="dept-text" x="1292" y="590" dominant-baseline="middle">C</text>
           </g>
 
           <g class="dept-group" data-dept-target="dep4">
             <circle class="dept-circle" cx="1554" cy="715" r="90" />
-            <text class="dept-text" x="1554" y="715">e</text>
+            <text class="dept-text" x="1554" y="715" dominant-baseline="middle">e</text>
           </g>
 
           <g class="dept-group" data-dept-target="dep5">
             <circle class="dept-circle" cx="1853" cy="557" r="90" />
-            <text class="dept-text" x="1853" y="557">D</text>
+            <text class="dept-text" x="1853" y="557" dominant-baseline="middle">D</text>
           </g>
 
         </svg>
@@ -383,9 +383,8 @@
 
       function activarSub(subKey) {
         segGroups.forEach(g => {
-          g.classList.toggle("seg-group-active",
-            g.getAttribute("data-sub") === subKey
-          );
+          const k = g.getAttribute("data-sub");
+          g.classList.toggle("seg-group-active", k === subKey);
         });
 
         const info = segSubInfo[subKey];
@@ -417,13 +416,13 @@
       if (id === "dep1") {
         panelText.innerHTML = `
           <div class="seg-diagram-wrapper">
-            <svg class="seg-diagram-svg" viewBox="0 0 800 260">
+            <svg class="seg-diagram-svg" viewBox="0 0 800 320" xmlns="http://www.w3.org/2000/svg">
 
-              <line x1="100" y1="120" x2="700" y2="120"
+              <line x1="100" y1="130" x2="700" y2="130"
                 stroke="#38bdf8" stroke-width="4" stroke-opacity="0.4" />
 
               <!-- DRONES -->
-              <g class="seg-group" data-sub="drones" transform="translate(100,120)">
+              <g class="seg-group" data-sub="drones" transform="translate(100,130)">
                 <circle class="seg-circle" cx="0" cy="0" r="55" />
 
                 <rect class="seg-icon-stroke" x="-18" y="-10" width="36" height="20" rx="4" />
@@ -439,12 +438,12 @@
 
                 <circle class="seg-icon-stroke" cx="0" cy="0" r="4" />
 
-                <text class="seg-label" x="0" y="85">Seguridad Aérea</text>
-                <text class="seg-label-small" x="0" y="105">(drones)</text>
+                <text class="seg-label" x="0" y="90">Seguridad Aérea</text>
+                <text class="seg-label seg-label-small" x="0" y="112">(drones)</text>
               </g>
 
               <!-- CONTROL -->
-              <g class="seg-group" data-sub="control" transform="translate(300,120)">
+              <g class="seg-group" data-sub="control" transform="translate(300,130)">
                 <circle class="seg-circle" cx="0" cy="0" r="55" />
 
                 <rect class="seg-icon-stroke" x="-22" y="-24" width="44" height="34" rx="4" />
@@ -459,12 +458,12 @@
                 <rect class="seg-icon-stroke" x="22" y="-14" width="6" height="6" />
                 <rect class="seg-icon-fill" x="28" y="-14" width="6" height="6" />
 
-                <text class="seg-label" x="0" y="85">Control de</text>
-                <text class="seg-label-small" x="0" y="105">Participantes</text>
+                <text class="seg-label" x="0" y="90">Control de</text>
+                <text class="seg-label seg-label-small" x="0" y="112">Participantes</text>
               </g>
 
               <!-- GPS -->
-              <g class="seg-group" data-sub="gps" transform="translate(500,120)">
+              <g class="seg-group" data-sub="gps" transform="translate(500,130)">
                 <circle class="seg-circle" cx="0" cy="0" r="55" />
 
                 <path class="seg-icon-stroke" d="
@@ -477,12 +476,12 @@
                 <circle class="seg-icon-stroke" cx="0" cy="-10" r="8" />
                 <circle class="seg-icon-fill" cx="0" cy="42" r="3" />
 
-                <text class="seg-label" x="0" y="85">Posicionamiento</text>
-                <text class="seg-label-small" x="0" y="105">GPS</text>
+                <text class="seg-label" x="0" y="90">Posicionamiento</text>
+                <text class="seg-label seg-label-small" x="0" y="112">GPS</text>
               </g>
 
               <!-- BANDERAS -->
-              <g class="seg-group" data-sub="banderas" transform="translate(700,120)">
+              <g class="seg-group" data-sub="banderas" transform="translate(700,130)">
                 <circle class="seg-circle" cx="0" cy="0" r="55" />
 
                 <line class="seg-icon-stroke" x1="-18" y1="-30" x2="-18" y2="35" />
@@ -493,8 +492,8 @@
                   L 15 2
                   L -18 10 Z" />
 
-                <text class="seg-label" x="0" y="85">Banderas</text>
-                <text class="seg-label-small" x="0" y="105">Electrónicas</text>
+                <text class="seg-label" x="0" y="90">Banderas</text>
+                <text class="seg-label seg-label-small" x="0" y="112">Electrónicas</text>
               </g>
 
             </svg>
