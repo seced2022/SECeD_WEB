@@ -426,6 +426,29 @@
       }
     };
 
+    const domoSubInfo = {
+      humedad: {
+        titulo: "Sensores de Humedad",
+        texto: "Medición de humedad en suelo, ambiente o depósitos para control preciso."
+      },
+      agricultura: {
+        titulo: "Aplicaciones para Agricultura",
+        texto: "Soluciones de monitorización y control específico para entornos agrícolas."
+      },
+      hogar: {
+        titulo: "Hogar",
+        texto: "Domótica para viviendas: confort, seguridad y eficiencia energética."
+      },
+      aereos: {
+        titulo: "Recursos Aéreos",
+        texto: "Integración de recursos aéreos en sistemas de monitorización y domótica."
+      },
+      medidores: {
+        titulo: "Medidores de Valores",
+        texto: "Medición de variables como temperatura, presión o consumo en tiempo real."
+      }
+    };
+
     const deptGroups = document.querySelectorAll(".dept-group");
     const panelTitle = document.getElementById("dept-panel-title");
     const panelText = document.getElementById("dept-panel-text");
@@ -561,6 +584,38 @@
 
       estInfoDiv.innerHTML = `
         <h3>Estudio Técnico</h3>
+        <p>Seleccione un subdepartamento.</p>
+      `;
+    }
+
+    /* -------- Mini panel de Domótica y Monitorización -------- */
+
+    function setupDomoticaInteractions() {
+      const domoGroups = panelText.querySelectorAll(".domo-group");
+      const domoInfoDiv = panelText.querySelector("#domo-info");
+
+      function activarSubDomo(subKey) {
+        domoGroups.forEach(g => {
+          const k = g.getAttribute("data-sub");
+          g.classList.toggle("seg-group-active", k === subKey);
+        });
+
+        const info = domoSubInfo[subKey];
+        if (info) {
+          domoInfoDiv.innerHTML = `
+            <h3>${info.titulo}</h3>
+            <p>${info.texto}</p>
+          `;
+        }
+      }
+
+      domoGroups.forEach(g => {
+        const subKey = g.getAttribute("data-sub");
+        g.addEventListener("click", () => activarSubDomo(subKey));
+      });
+
+      domoInfoDiv.innerHTML = `
+        <h3>Domótica y Monitorización</h3>
         <p>Seleccione un subdepartamento.</p>
       `;
     }
@@ -912,6 +967,135 @@
         `;
 
         setupEstudioTecnicoInteractions();
+
+      } else if (id === "dep5") {
+        // DOMÓTICA Y MONITORIZACIÓN
+        panelText.innerHTML = `
+          <div class="seg-diagram-wrapper">
+            <svg class="seg-diagram-svg" viewBox="0 0 800 340" xmlns="http://www.w3.org/2000/svg">
+
+              <line x1="100" y1="140" x2="700" y2="140"
+                stroke="#38bdf8" stroke-width="4" stroke-opacity="0.35" />
+
+              <!-- SENSORES DE HUMEDAD -->
+              <g class="domo-group" data-sub="humedad" transform="translate(100,140)">
+                <circle class="seg-circle" cx="0" cy="0" r="50" />
+                <circle class="seg-circle-glow" cx="0" cy="0" r="50" />
+
+                <!-- Gota -->
+                <path class="seg-icon-stroke" d="
+                  M 0 -20
+                  C -10 -4 -14 0 -14 10
+                  C -14 22 -4 30 0 30
+                  C 4 30 14 22 14 10
+                  C 14 0 10 -4 0 -20 Z
+                " />
+                <!-- Línea de sensor -->
+                <line class="seg-icon-stroke" x1="-18" y1="-4" x2="-30" y2="-4" />
+                <circle class="seg-icon-fill" cx="-30" cy="-4" r="2" />
+
+                <text class="seg-label" x="0" y="78">Sensores de</text>
+                <text class="seg-label seg-label-small" x="0" y="98">Humedad</text>
+              </g>
+
+              <!-- APLICACIONES PARA AGRICULTURA -->
+              <g class="domo-group" data-sub="agricultura" transform="translate(250,140)">
+                <circle class="seg-circle" cx="0" cy="0" r="50" />
+                <circle class="seg-circle-glow" cx="0" cy="0" r="50" />
+
+                <!-- Dispositivo (tablet/móvil) -->
+                <rect class="seg-icon-stroke" x="-18" y="-26" width="36" height="40" rx="4" />
+                <circle class="seg-icon-fill" cx="0" cy="11" r="2" />
+
+                <!-- Planta -->
+                <path class="seg-icon-stroke" d="
+                  M 0 6
+                  L 0 -10
+                " />
+                <path class="seg-icon-stroke" d="
+                  M 0 -4
+                  C -6 -8 -10 -10 -12 -14
+                " />
+                <path class="seg-icon-stroke" d="
+                  M 0 -4
+                  C 6 -8 10 -10 12 -14
+                " />
+
+                <text class="seg-label" x="0" y="78">Aplicaciones</text>
+                <text class="seg-label seg-label-small" x="0" y="98">para Agricultura</text>
+              </g>
+
+              <!-- HOGAR -->
+              <g class="domo-group" data-sub="hogar" transform="translate(400,140)">
+                <circle class="seg-circle" cx="0" cy="0" r="50" />
+                <circle class="seg-circle-glow" cx="0" cy="0" r="50" />
+
+                <!-- Casa -->
+                <path class="seg-icon-stroke" d="
+                  M -16 10
+                  L -16 -6
+                  L 0 -18
+                  L 16 -6
+                  L 16 10
+                  Z
+                " />
+                <rect class="seg-icon-stroke" x="-10" y="-2" width="8" height="12" />
+                <rect class="seg-icon-stroke" x="2" y="0" width="8" height="8" />
+
+                <!-- Wifi -->
+                <path class="seg-icon-stroke" d="M -4 -20 Q 0 -24 4 -20" />
+                <path class="seg-icon-stroke" d="M -6 -24 Q 0 -28 6 -24" />
+                <circle class="seg-icon-fill" cx="0" cy="-18" r="2" />
+
+                <text class="seg-label" x="0" y="78">Hogar</text>
+                <text class="seg-label seg-label-small" x="0" y="98"></text>
+              </g>
+
+              <!-- RECURSOS AÉREOS -->
+              <g class="domo-group" data-sub="aereos" transform="translate(550,140)">
+                <circle class="seg-circle" cx="0" cy="0" r="50" />
+                <circle class="seg-circle-glow" cx="0" cy="0" r="50" />
+
+                <!-- Pequeño dron / recurso aéreo -->
+                <rect class="seg-icon-stroke" x="-10" y="-6" width="20" height="12" rx="3" />
+                <line class="seg-icon-stroke" x1="-24" y1="-10" x2="-10" y2="-6" />
+                <line class="seg-icon-stroke" x1="24" y1="-10" x2="10" y2="-6" />
+                <circle class="seg-icon-stroke" cx="-24" cy="-10" r="4" />
+                <circle class="seg-icon-stroke" cx="24" cy="-10" r="4" />
+                <circle class="seg-icon-fill" cx="0" cy="0" r="3" />
+                <!-- Trayectoria / recurso -->
+                <path class="seg-icon-stroke" d="M -26 16 Q 0 26 26 16" />
+
+                <text class="seg-label" x="0" y="78">Recursos</text>
+                <text class="seg-label seg-label-small" x="0" y="98">Aéreos</text>
+              </g>
+
+              <!-- MEDIDORES DE VALORES -->
+              <g class="domo-group" data-sub="medidores" transform="translate(700,140)">
+                <circle class="seg-circle" cx="0" cy="0" r="50" />
+                <circle class="seg-circle-glow" cx="0" cy="0" r="50" />
+
+                <!-- Esfera de medidor -->
+                <circle class="seg-icon-stroke" cx="0" cy="0" r="20" />
+                <!-- Aguja -->
+                <line class="seg-icon-stroke" x1="0" y1="0" x2="14" y2="-6" />
+                <circle class="seg-icon-fill" cx="0" cy="0" r="2" />
+                <!-- Marcas -->
+                <line class="seg-icon-stroke" x1="-14" y1="0" x2="-10" y2="0" />
+                <line class="seg-icon-stroke" x1="0" y1="-14" x2="0" y2="-10" />
+                <line class="seg-icon-stroke" x1="10" y1="10" x2="14" y2="14" />
+
+                <text class="seg-label" x="0" y="78">Medidores de</text>
+                <text class="seg-label seg-label-small" x="0" y="98">Valores</text>
+              </g>
+
+            </svg>
+          </div>
+
+          <div id="domo-info" class="seg-info"></div>
+        `;
+
+        setupDomoticaInteractions();
 
       } else {
         panelText.textContent =
