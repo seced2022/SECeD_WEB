@@ -227,6 +227,23 @@
       filter: drop-shadow(0 10px 20px rgba(56, 189, 248, 0.9));
     }
 
+    /* CÍRCULO DE LUZ ANIMADO (ARO) */
+    .seg-circle-glow {
+      fill: none;
+      stroke: #38bdf8;
+      stroke-width: 4;
+      stroke-linecap: round;
+      stroke-dasharray: 40 320;
+      stroke-dashoffset: 0;
+      animation: segRing 2.4s linear infinite;
+    }
+
+    @keyframes segRing {
+      to {
+        stroke-dashoffset: -360;
+      }
+    }
+
     .seg-label {
       fill: #38bdf8;
       font-size: 13px;
@@ -424,6 +441,7 @@
               <!-- DRONES -->
               <g class="seg-group" data-sub="drones" transform="translate(100,130)">
                 <circle class="seg-circle" cx="0" cy="0" r="55" />
+                <circle class="seg-circle-glow" cx="0" cy="0" r="55" />
 
                 <rect class="seg-icon-stroke" x="-18" y="-10" width="36" height="20" rx="4" />
                 <line class="seg-icon-stroke" x1="-35" y1="-20" x2="-10" y2="-10" />
@@ -445,6 +463,7 @@
               <!-- CONTROL -->
               <g class="seg-group" data-sub="control" transform="translate(300,130)">
                 <circle class="seg-circle" cx="0" cy="0" r="55" />
+                <circle class="seg-circle-glow" cx="0" cy="0" r="55" />
 
                 <rect class="seg-icon-stroke" x="-22" y="-24" width="44" height="34" rx="4" />
                 <text x="0" y="-3" text-anchor="middle"
@@ -465,6 +484,7 @@
               <!-- GPS -->
               <g class="seg-group" data-sub="gps" transform="translate(500,130)">
                 <circle class="seg-circle" cx="0" cy="0" r="55" />
+                <circle class="seg-circle-glow" cx="0" cy="0" r="55" />
 
                 <path class="seg-icon-stroke" d="
                   M 0 -28
@@ -483,6 +503,7 @@
               <!-- BANDERAS -->
               <g class="seg-group" data-sub="banderas" transform="translate(700,130)">
                 <circle class="seg-circle" cx="0" cy="0" r="55" />
+                <circle class="seg-circle-glow" cx="0" cy="0" r="55" />
 
                 <line class="seg-icon-stroke" x1="-18" y1="-30" x2="-18" y2="35" />
                 <path class="seg-icon-stroke" d="
