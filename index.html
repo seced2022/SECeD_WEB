@@ -89,19 +89,23 @@
       overflow: hidden;
     }
 
-    /* Pista que se mueve de derecha a izquierda */
+    /* Pista que se mueve de un lado a otro del panel */
     .dept-led-track {
       display: inline-block;
       white-space: nowrap;
-      animation: ledScroll 12s linear infinite;
+      animation: ledScroll 10s linear infinite;
     }
 
+    /* NUEVA ANIMACIÓN: derecha -> izquierda -> derecha */
     @keyframes ledScroll {
       0% {
         transform: translateX(100%);
       }
-      100% {
+      50% {
         transform: translateX(-100%);
+      }
+      100% {
+        transform: translateX(100%);
       }
     }
 
@@ -483,7 +487,7 @@
     let activeDept = null;
 
     function setLedMessage(msg) {
-      // SOLO UNA VEZ el texto, con espacios a los lados para que recorra el panel
+      // Texto una sola vez, con espacios a los lados para que tenga recorrido
       const padded = "       " + msg + "       ";
       ledText.textContent = padded;
     }
