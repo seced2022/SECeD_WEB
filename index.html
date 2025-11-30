@@ -331,7 +331,7 @@
       <div class="dept-led">
         <div class="dept-led-window">
           <div class="dept-led-track">
-            <span id="dept-led-text" class="dept-led-text">I + D + i</span>
+            <span id="dept-led-text" class="dept-led-text"></span>
           </div>
         </div>
       </div>
@@ -479,11 +479,17 @@
     const panelText = document.getElementById("dept-panel-text");
     const ledText = document.getElementById("dept-led-text");
 
+    const defaultLedMsg = "I + D + i";
     let activeDept = null;
 
     function setLedMessage(msg) {
-      ledText.textContent = msg;
+      // Duplicamos y acolchamos para que siempre recorra el panel
+      const padded = "   " + msg + "   " + msg + "   ";
+      ledText.textContent = padded;
     }
+
+    // Mensaje inicial del panel LED
+    setLedMessage(defaultLedMsg);
 
     /* -------- Mini panel de Seguridad -------- */
 
@@ -1160,7 +1166,7 @@
           setLedMessage(deptInfo[activeDept].titulo);
           updatePanel(activeDept);
         } else {
-          setLedMessage("I + D + i");
+          setLedMessage(defaultLedMsg);
           clearPanel();
         }
       });
