@@ -201,7 +201,7 @@
       text-align: center;
     }
 
-    /* MINI GRÁFICA SUBDEPARTAMENTOS SEGURIDAD */
+    /* MINI GRÁFICAS SUBDEPARTAMENTOS (SEGURIDAD / CRONO) */
 
     .seg-diagram-wrapper {
       margin-top: 10px;
@@ -381,6 +381,25 @@
       }
     };
 
+    const cronoSubInfo = {
+      cronoimp: {
+        titulo: "CRONOIMPRESORAS",
+        texto: "Equipos de cronometraje con impresión de tiempos y registros de paso."
+      },
+      reloj: {
+        titulo: "RELOJ DE SALIDA",
+        texto: "Relojes de cuenta atrás y salida para tramos y especiales."
+      },
+      foto: {
+        titulo: "FOTOCELULAS",
+        texto: "Fotocélulas de precisión para salidas, metas e intermedios."
+      },
+      pancartas: {
+        titulo: "PANCARTAS",
+        texto: "Pancartas y displays de tiempos para zonas de público y asistencias."
+      }
+    };
+
     const deptGroups = document.querySelectorAll(".dept-group");
     const panelTitle = document.getElementById("dept-panel-title");
     const panelText = document.getElementById("dept-panel-text");
@@ -424,6 +443,38 @@
       `;
     }
 
+    /* -------- Mini panel de Equipos de Cronometraje -------- */
+
+    function setupCronometrajeInteractions() {
+      const cronoGroups = panelText.querySelectorAll(".crono-group");
+      const cronoInfoDiv = panelText.querySelector("#crono-info");
+
+      function activarSubCrono(subKey) {
+        cronoGroups.forEach(g => {
+          const k = g.getAttribute("data-sub");
+          g.classList.toggle("seg-group-active", k === subKey);
+        });
+
+        const info = cronoSubInfo[subKey];
+        if (info) {
+          cronoInfoDiv.innerHTML = `
+            <h3>${info.titulo}</h3>
+            <p>${info.texto}</p>
+          `;
+        }
+      }
+
+      cronoGroups.forEach(g => {
+        const subKey = g.getAttribute("data-sub");
+        g.addEventListener("click", () => activarSubCrono(subKey));
+      });
+
+      cronoInfoDiv.innerHTML = `
+        <h3>Equipos de Cronometraje</h3>
+        <p>Seleccione un subdepartamento.</p>
+      `;
+    }
+
     /* -------- Panel inferior según departamento -------- */
 
     function updatePanel(id) {
@@ -431,6 +482,7 @@
       panelTitle.textContent = info.titulo;
 
       if (id === "dep1") {
+        // SEGURIDAD
         panelText.innerHTML = `
           <div class="seg-diagram-wrapper">
             <svg class="seg-diagram-svg" viewBox="0 0 800 320" xmlns="http://www.w3.org/2000/svg">
@@ -460,7 +512,7 @@
                 <text class="seg-label seg-label-small" x="0" y="112">(drones)</text>
               </g>
 
-              <!-- CONTROL -->
+              <!-- CONTROL PARTICIPANTES -->
               <g class="seg-group" data-sub="control" transform="translate(300,130)">
                 <circle class="seg-circle" cx="0" cy="0" r="55" />
                 <circle class="seg-circle-glow" cx="0" cy="0" r="55" />
@@ -524,6 +576,95 @@
         `;
 
         setupSeguridadInteractions();
+
+      } else if (id === "dep2") {
+        // EQUIPOS DE CRONOMETRAJE
+        panelText.innerHTML = `
+          <div class="seg-diagram-wrapper">
+            <svg class="seg-diagram-svg" viewBox="0 0 800 320" xmlns="http://www.w3.org/2000/svg">
+
+              <line x1="100" y1="130" x2="700" y2="130"
+                stroke="#38bdf8" stroke-width="4" stroke-opacity="0.4" />
+
+              <!-- CRONOIMPRESORAS -->
+              <g class="crono-group" data-sub="cronoimp" transform="translate(100,130)">
+                <circle class="seg-circle" cx="0" cy="0" r="55" />
+                <circle class="seg-circle-glow" cx="0" cy="0" r="55" />
+
+                <!-- Icono: impresora + papel -->
+                <rect class="seg-icon-stroke" x="-22" y="-16" width="44" height="26" rx="3" />
+                <rect class="seg-icon-stroke" x="-18" y="-22" width="36" height="10" rx="2" />
+                <line class="seg-icon-stroke" x1="-14" y1="-10" x2="14" y2="-10" />
+                <line class="seg-icon-stroke" x1="-14" y1="-4" x2="10" y2="-4" />
+
+                <!-- Texto -->
+                <text class="seg-label" x="0" y="90">CRONO</text>
+                <text class="seg-label seg-label-small" x="0" y="112">IMPRESORAS</text>
+              </g>
+
+              <!-- RELOJ DE SALIDA -->
+              <g class="crono-group" data-sub="reloj" transform="translate(300,130)">
+                <circle class="seg-circle" cx="0" cy="0" r="55" />
+                <circle class="seg-circle-glow" cx="0" cy="0" r="55" />
+
+                <!-- Reloj digital -->
+                <rect class="seg-icon-stroke" x="-24" y="-18" width="48" height="30" rx="4" />
+                <text x="0" y="-2" text-anchor="middle"
+                  fill="#38bdf8" font-size="14" font-weight="700">00:00</text>
+
+                <!-- Tres leds abajo -->
+                <circle class="seg-icon-fill" cx="-10" cy="14" r="2" />
+                <circle class="seg-icon-fill" cx="0" cy="14" r="2" />
+                <circle class="seg-icon-fill" cx="10" cy="14" r="2" />
+
+                <text class="seg-label" x="0" y="90">RELOJ DE</text>
+                <text class="seg-label seg-label-small" x="0" y="112">SALIDA</text>
+              </g>
+
+              <!-- FOTOCELULAS -->
+              <g class="crono-group" data-sub="foto" transform="translate(500,130)">
+                <circle class="seg-circle" cx="0" cy="0" r="55" />
+                <circle class="seg-circle-glow" cx="0" cy="0" r="55" />
+
+                <!-- Dos postes -->
+                <rect class="seg-icon-stroke" x="-24" y="-24" width="8" height="48" rx="2" />
+                <rect class="seg-icon-stroke" x="16" y="-24" width="8" height="48" rx="2" />
+
+                <!-- Sensores -->
+                <rect class="seg-icon-fill" x="-24" y="-6" width="8" height="6" />
+                <rect class="seg-icon-fill" x="16" y="-6" width="8" height="6" />
+
+                <!-- Haz -->
+                <line class="seg-icon-stroke" x1="-16" y1="-3" x2="16" y2="-3" />
+
+                <text class="seg-label" x="0" y="90">FOTOCELULAS</text>
+                <text class="seg-label seg-label-small" x="0" y="112"></text>
+              </g>
+
+              <!-- PANCARTAS -->
+              <g class="crono-group" data-sub="pancartas" transform="translate(700,130)">
+                <circle class="seg-circle" cx="0" cy="0" r="55" />
+                <circle class="seg-circle-glow" cx="0" cy="0" r="55" />
+
+                <!-- Pancarta en postes -->
+                <line class="seg-icon-stroke" x1="-18" y1="-20" x2="-18" y2="22" />
+                <line class="seg-icon-stroke" x1="18" y1="-20" x2="18" y2="22" />
+                <rect class="seg-icon-stroke" x="-18" y="-20" width="36" height="16" />
+                <line class="seg-icon-stroke" x1="-14" y1="-12" x2="14" y2="-12" />
+                <line class="seg-icon-stroke" x1="-10" y1="-6" x2="10" y2="-6" />
+
+                <text class="seg-label" x="0" y="90">PANCARTAS</text>
+                <text class="seg-label seg-label-small" x="0" y="112"></text>
+              </g>
+
+            </svg>
+          </div>
+
+          <div id="crono-info" class="seg-info"></div>
+        `;
+
+        setupCronometrajeInteractions();
+
       } else {
         panelText.textContent =
           "Panel de " + info.titulo + ". Aquí añadiremos contenido.";
