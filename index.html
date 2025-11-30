@@ -483,8 +483,8 @@
     let activeDept = null;
 
     function setLedMessage(msg) {
-      // Duplicamos y acolchamos para que siempre recorra el panel
-      const padded = "   " + msg + "   " + msg + "   ";
+      // SOLO UNA VEZ el texto, con espacios a los lados para que recorra el panel
+      const padded = "       " + msg + "       ";
       ledText.textContent = padded;
     }
 
