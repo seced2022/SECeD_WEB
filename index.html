@@ -591,13 +591,25 @@
                 <circle class="seg-circle" cx="0" cy="0" r="55" />
                 <circle class="seg-circle-glow" cx="0" cy="0" r="55" />
 
-                <!-- Icono: impresora + papel -->
-                <rect class="seg-icon-stroke" x="-22" y="-16" width="44" height="26" rx="3" />
-                <rect class="seg-icon-stroke" x="-18" y="-22" width="36" height="10" rx="2" />
-                <line class="seg-icon-stroke" x1="-14" y1="-10" x2="14" y2="-10" />
-                <line class="seg-icon-stroke" x1="-14" y1="-4" x2="10" y2="-4" />
+                <!-- Cuerpo impresora -->
+                <rect class="seg-icon-stroke" x="-24" y="-16" width="48" height="28" rx="4" />
 
-                <!-- Texto -->
+                <!-- Bandeja / tapa -->
+                <rect class="seg-icon-stroke" x="-20" y="-24" width="40" height="10" rx="2" />
+
+                <!-- Pantalla -->
+                <rect class="seg-icon-stroke" x="0" y="-12" width="14" height="8" rx="2" />
+                <rect class="seg-icon-fill" x="1" y="-11" width="12" height="6" rx="1" />
+
+                <!-- Botones LED laterales -->
+                <circle class="seg-icon-fill" cx="-18" cy="-5" r="3" />
+                <circle class="seg-icon-fill" cx="-18" cy="2" r="3" />
+                <circle class="seg-icon-fill" cx="-18" cy="9" r="3" />
+
+                <!-- Líneas de impresión -->
+                <line class="seg-icon-stroke" x1="-10" y1="0" x2="10" y2="0" />
+                <line class="seg-icon-stroke" x1="-10" y1="6" x2="6" y2="6" />
+
                 <text class="seg-label" x="0" y="90">CRONO</text>
                 <text class="seg-label seg-label-small" x="0" y="112">IMPRESORAS</text>
               </g>
@@ -646,12 +658,19 @@
                 <circle class="seg-circle" cx="0" cy="0" r="55" />
                 <circle class="seg-circle-glow" cx="0" cy="0" r="55" />
 
-                <!-- Pancarta en postes -->
-                <line class="seg-icon-stroke" x1="-18" y1="-20" x2="-18" y2="22" />
-                <line class="seg-icon-stroke" x1="18" y1="-20" x2="18" y2="22" />
-                <rect class="seg-icon-stroke" x="-18" y="-20" width="36" height="16" />
-                <line class="seg-icon-stroke" x1="-14" y1="-12" x2="14" y2="-12" />
-                <line class="seg-icon-stroke" x1="-10" y1="-6" x2="10" y2="-6" />
+                <!-- Círculo interior tipo pancarta -->
+                <circle class="seg-icon-stroke" cx="0" cy="0" r="28" />
+
+                <!-- Poste pequeño -->
+                <line class="seg-icon-stroke" x1="-10" y1="-12" x2="-10" y2="12" />
+
+                <!-- Bandera dentro del círculo -->
+                <path class="seg-icon-stroke" d="
+                  M -10 -12
+                  L 6 -9
+                  Q -4 -3 6 3
+                  L -10 6 Z
+                "/>
 
                 <text class="seg-label" x="0" y="90">PANCARTAS</text>
                 <text class="seg-label seg-label-small" x="0" y="112"></text>
