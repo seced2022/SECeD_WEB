@@ -201,7 +201,7 @@
       text-align: center;
     }
 
-    /* MINI GRÁFICAS SUBDEPARTAMENTOS (SEGURIDAD / CRONO / COMUNICACIONES) */
+    /* MINI GRÁFICAS SUBDEPARTAMENTOS */
 
     .seg-diagram-wrapper {
       margin-top: 10px;
@@ -358,7 +358,7 @@
       dep1: { titulo: "Seguridad" },
       dep2: { titulo: "Equipos de Cronometraje" },
       dep3: { titulo: "Comunicaciones" },
-      dep4: { titulo: "Equipo Técnico" },
+      dep4: { titulo: "Estudio Técnico" },
       dep5: { titulo: "Domótica y Monitorización" }
     };
 
@@ -412,6 +412,17 @@
       lora: {
         titulo: "LORA",
         texto: "Redes LORA de bajo consumo para telemetría, estados y señales distribuidas."
+      }
+    };
+
+    const estSubInfo = {
+      paneles: {
+        titulo: "Paneles LED Publicitarios",
+        texto: "Diseño e integración de paneles LED publicitarios para eventos y tramos."
+      },
+      reparacion: {
+        titulo: "Reparación de Equipos Electrónicos",
+        texto: "Servicio técnico para reparación y mantenimiento de equipos electrónicos de competición."
       }
     };
 
@@ -518,6 +529,38 @@
 
       commInfoDiv.innerHTML = `
         <h3>Comunicaciones</h3>
+        <p>Seleccione un subdepartamento.</p>
+      `;
+    }
+
+    /* -------- Mini panel de Estudio Técnico -------- */
+
+    function setupEstudioTecnicoInteractions() {
+      const estGroups = panelText.querySelectorAll(".est-group");
+      const estInfoDiv = panelText.querySelector("#est-info");
+
+      function activarSubEst(subKey) {
+        estGroups.forEach(g => {
+          const k = g.getAttribute("data-sub");
+          g.classList.toggle("seg-group-active", k === subKey);
+        });
+
+        const info = estSubInfo[subKey];
+        if (info) {
+          estInfoDiv.innerHTML = `
+            <h3>${info.titulo}</h3>
+            <p>${info.texto}</p>
+          `;
+        }
+      }
+
+      estGroups.forEach(g => {
+        const subKey = g.getAttribute("data-sub");
+        g.addEventListener("click", () => activarSubEst(subKey));
+      });
+
+      estInfoDiv.innerHTML = `
+        <h3>Estudio Técnico</h3>
         <p>Seleccione un subdepartamento.</p>
       `;
     }
@@ -804,6 +847,71 @@
         `;
 
         setupComunicacionesInteractions();
+
+      } else if (id === "dep4") {
+        // ESTUDIO TÉCNICO
+        panelText.innerHTML = `
+          <div class="seg-diagram-wrapper">
+            <svg class="seg-diagram-svg" viewBox="0 0 800 320" xmlns="http://www.w3.org/2000/svg">
+
+              <line x1="200" y1="130" x2="600" y2="130"
+                stroke="#38bdf8" stroke-width="4" stroke-opacity="0.4" />
+
+              <!-- PANELES LED PUBLICITARIOS -->
+              <g class="est-group" data-sub="paneles" transform="translate(200,130)">
+                <circle class="seg-circle" cx="0" cy="0" r="55" />
+                <circle class="seg-circle-glow" cx="0" cy="0" r="55" />
+
+                <!-- Mástil -->
+                <line class="seg-icon-stroke" x1="0" y1="-18" x2="0" y2="22" />
+                <line class="seg-icon-stroke" x1="-8" y1="22" x2="8" y2="22" />
+
+                <!-- Panel rectangular -->
+                <rect class="seg-icon-stroke" x="-26" y="-40" width="52" height="18" rx="2" />
+                <!-- “Píxeles” LED (líneas) -->
+                <line class="seg-icon-stroke" x1="-22" y1="-35" x2="22" y2="-35" />
+                <line class="seg-icon-stroke" x1="-22" y1="-30" x2="22" y2="-30" />
+                <line class="seg-icon-stroke" x1="-22" y1="-25" x2="10" y2="-25" />
+
+                <text class="seg-label" x="0" y="90">Paneles LED</text>
+                <text class="seg-label seg-label-small" x="0" y="112">Publicitarios</text>
+              </g>
+
+              <!-- REPARACIÓN DE EQUIPOS ELECTRÓNICOS -->
+              <g class="est-group" data-sub="reparacion" transform="translate(600,130)">
+                <circle class="seg-circle" cx="0" cy="0" r="55" />
+                <circle class="seg-circle-glow" cx="0" cy="0" r="55" />
+
+                <!-- Placa / chip -->
+                <rect class="seg-icon-stroke" x="-18" y="-18" width="28" height="28" rx="4" />
+                <!-- Patillas -->
+                <line class="seg-icon-stroke" x1="-22" y1="-12" x2="-18" y2="-12" />
+                <line class="seg-icon-stroke" x1="-22" y1="-4" x2="-18" y2="-4" />
+                <line class="seg-icon-stroke" x1="-22" y1="4" x2="-18" y2="4" />
+                <line class="seg-icon-stroke" x1="10"  y1="-12" x2="14" y2="-12" />
+                <line class="seg-icon-stroke" x1="10"  y1="-4"  x2="14" y2="-4" />
+                <line class="seg-icon-stroke" x1="10"  y1="4"  x2="14" y2="4" />
+
+                <!-- Llave inglesa cruzando -->
+                <path class="seg-icon-stroke" d="
+                  M -6 14
+                  L 8 0
+                  L 12 4
+                  L -2 18
+                  Z
+                " />
+
+                <text class="seg-label" x="0" y="90">Reparación de</text>
+                <text class="seg-label seg-label-small" x="0" y="112">Equipos Electrónicos</text>
+              </g>
+
+            </svg>
+          </div>
+
+          <div id="est-info" class="seg-info"></div>
+        `;
+
+        setupEstudioTecnicoInteractions();
 
       } else {
         panelText.textContent =
