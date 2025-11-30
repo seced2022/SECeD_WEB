@@ -239,6 +239,12 @@
       stroke: #38bdf8;
       stroke-width: 4;
       filter: drop-shadow(0 5px 12px rgba(8, 47, 73, 0.9));
+      transition: stroke 0.2s ease, filter 0.2s ease;
+    }
+
+    .seg-group-active .seg-circle {
+      stroke: #f1f5f9;
+      filter: drop-shadow(0 10px 20px rgba(56, 189, 248, 0.9));
     }
 
     .seg-label {
@@ -262,6 +268,24 @@
     .seg-icon-fill {
       fill: #38bdf8;
       stroke: none;
+    }
+
+    /* Info del subdepartamento de Seguridad */
+
+    .seg-info {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .seg-info h3 {
+      font-size: 1.1rem;
+      margin-bottom: 6px;
+    }
+
+    .seg-info p {
+      font-size: 0.95rem;
+      color: #9ca3af;
+      line-height: 1.5;
     }
   </style>
 </head>
@@ -348,6 +372,25 @@
       dep5: { titulo: "Domótica y Monitorización" }
     };
 
+    const segSubInfo = {
+      drones: {
+        titulo: "Seguridad Aérea (drones)",
+        texto: "Supervisión de tramos y zonas críticas mediante aeronaves no tripuladas, con transmisión en tiempo real y apoyo a la dirección de carrera."
+      },
+      control: {
+        titulo: "Control de Participantes",
+        texto: "Gestión del censo de pilotos y copilotos, verificación de salidas y llegadas, y seguimiento de la situación de cada equipo durante la prueba."
+      },
+      gps: {
+        titulo: "Posicionamiento GPS",
+        texto: "Localización continua de vehículos de competición, extracción de trazas y avisos automáticos ante situaciones anómalas o detenciones prolongadas."
+      },
+      banderas: {
+        titulo: "Banderas Electrónicas",
+        texto: "Sistema de señalización digital en puntos estratégicos del tramo, sincronizado con dirección de carrera y control de seguridad."
+      }
+    };
+
     const defaultLedMsg = "I + D + i";
 
     const deptGroups = document.querySelectorAll(".dept-group");
@@ -359,6 +402,41 @@
 
     function setLedMessage(msg) {
       ledText.textContent = msg;
+    }
+
+    function setupSeguridadInteractions() {
+      const segGroups = panelText.querySelectorAll(".seg-group");
+      const segInfoDiv = panelText.querySelector("#seg-info");
+      if (!segInfoDiv || segGroups.length === 0) return;
+
+      function activarSub(subKey) {
+        segGroups.forEach(g => {
+          const k = g.getAttribute("data-sub");
+          g.classList.toggle("seg-group-active", k === subKey);
+        });
+
+        const info = segSubInfo[subKey];
+        if (info) {
+          segInfoDiv.innerHTML = `
+            <h3>${info.titulo}</h3>
+            <p>${info.texto}</p>
+          `;
+        }
+      }
+
+      segGroups.forEach(g => {
+        const subKey = g.getAttribute("data-sub");
+        g.style.cursor = "pointer";
+        g.addEventListener("click", () => {
+          activarSub(subKey);
+        });
+      });
+
+      // Mensaje inicial
+      segInfoDiv.innerHTML = `
+        <h3>Seguridad</h3>
+        <p>Seleccione un subdepartamento para ver más información.</p>
+      `;
     }
 
     function updatePanel(id) {
@@ -376,7 +454,7 @@
                     stroke="#38bdf8" stroke-width="4" stroke-opacity="0.4" />
 
               <!-- 1. Seguridad Aérea (drones) -->
-              <g transform="translate(100, 120)">
+              <g class="seg-group" data-sub="drones" transform="translate(100, 120)">
                 <circle class="seg-circle" cx="0" cy="0" r="55" />
                 <!-- Icono drone -->
                 <rect class="seg-icon-stroke" x="-18" y="-10" width="36" height="20" rx="4" />
@@ -395,7 +473,7 @@
               </g>
 
               <!-- 2. Control de Participantes (RALLY) -->
-              <g transform="translate(300, 120)">
+              <g class="seg-group" data-sub="control" transform="translate(300, 120)">
                 <circle class="seg-circle" cx="0" cy="0" r="55" />
 
                 <!-- ICONO CONTROL DE PARTICIPANTES (RALLY) -->
@@ -419,7 +497,7 @@
               </g>
 
               <!-- 3. Posicionamiento GPS -->
-              <g transform="translate(500, 120)">
+              <g class="seg-group" data-sub="gps" transform="translate(500, 120)">
                 <circle class="seg-circle" cx="0" cy="0" r="55" />
                 <!-- Icono pin GPS -->
                 <path class="seg-icon-stroke" d="M 0 -28 C -16 -28, -28 -16, -28 0 C -28 14, 0 40, 0 40 C 0 40, 28 14, 28 0 C 28 -16, 16 -28, 0 -28 Z" />
@@ -431,7 +509,7 @@
               </g>
 
               <!-- 4. Banderas Electrónicas -->
-              <g transform="translate(700, 120)">
+              <g class="seg-group" data-sub="banderas" transform="translate(700, 120)">
                 <circle class="seg-circle" cx="0" cy="0" r="55" />
                 <!-- Icono bandera -->
                 <line class="seg-icon-stroke" x1="-18" y1="-30" x2="-18" y2="35" />
@@ -442,7 +520,10 @@
               </g>
             </svg>
           </div>
+          <div id="seg-info" class="seg-info"></div>
         `;
+
+        setupSeguridadInteractions();
       } else {
         // Panel genérico para el resto de departamentos
         panelText.textContent =
