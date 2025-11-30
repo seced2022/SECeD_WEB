@@ -168,7 +168,6 @@
     }
 
     .dept-circle {
-      /* el relleno LED lo controla el SVG con pattern */
       stroke: #38bdf8;
       stroke-width: 10;
       filter: drop-shadow(0 8px 18px rgba(8, 47, 73, 0.9));
@@ -235,7 +234,6 @@
     }
 
     .seg-circle {
-      /* relleno LED desde pattern en el SVG */
       stroke: #38bdf8;
       stroke-width: 4;
       filter: drop-shadow(0 5px 12px rgba(8, 47, 73, 0.9));
@@ -328,13 +326,13 @@
           viewBox="0 0 2048 1447"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <!-- DEFINICIÓN PATRÓN LED PARA CÍRCULOS PRINCIPALES -->
+          <!-- PATRÓN LED AZUL PARA CÍRCULOS PRINCIPALES -->
           <defs>
-            <pattern id="ledCirclePatternMain" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
-              <rect width="10" height="10" fill="#020617" />
-              <!-- “píxeles” del panel -->
-              <circle cx="3" cy="3" r="1.4" fill="#0f172a" />
-              <circle cx="7" cy="7" r="1.4" fill="#0f172a" />
+            <pattern id="ledCirclePatternMain" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse">
+              <rect width="8" height="8" fill="#020617" />
+              <!-- puntos LED azules -->
+              <circle cx="2" cy="2" r="1.8" fill="#38bdf8" />
+              <circle cx="6" cy="6" r="1.8" fill="#38bdf8" />
             </pattern>
           </defs>
 
@@ -464,10 +462,10 @@
           <div class="seg-diagram-wrapper">
             <svg class="seg-diagram-svg" viewBox="0 0 800 260" xmlns="http://www.w3.org/2000/svg">
               <defs>
-                <pattern id="ledCirclePatternSeg" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
-                  <rect width="10" height="10" fill="#020617" />
-                  <circle cx="3" cy="3" r="1.4" fill="#0f172a" />
-                  <circle cx="7" cy="7" r="1.4" fill="#0f172a" />
+                <pattern id="ledCirclePatternSeg" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse">
+                  <rect width="8" height="8" fill="#020617" />
+                  <circle cx="2" cy="2" r="1.8" fill="#38bdf8" />
+                  <circle cx="6" cy="6" r="1.8" fill="#38bdf8" />
                 </pattern>
               </defs>
 
@@ -575,6 +573,41 @@
         behavior: "smooth",
         block: "start"
       });
+    }
+
+    function setupSeguridadInteractions() {
+      const segGroups = panelText.querySelectorAll(".seg-group");
+      const segInfoDiv = panelText.querySelector("#seg-info");
+      if (!segInfoDiv || segGroups.length === 0) return;
+
+      function activarSub(subKey) {
+        segGroups.forEach(g => {
+          const k = g.getAttribute("data-sub");
+          g.classList.toggle("seg-group-active", k === subKey);
+        });
+
+        const info = segSubInfo[subKey];
+        if (info) {
+          segInfoDiv.innerHTML = `
+            <h3>${info.titulo}</h3>
+            <p>${info.texto}</p>
+          `;
+        }
+      }
+
+      segGroups.forEach(g => {
+        const subKey = g.getAttribute("data-sub");
+        g.style.cursor = "pointer";
+        g.addEventListener("click", () => {
+          activarSub(subKey);
+        });
+      });
+
+      // Mensaje inicial
+      segInfoDiv.innerHTML = `
+        <h3>Seguridad</h3>
+        <p>Seleccione un subdepartamento para ver más información.</p>
+      `;
     }
 
     deptGroups.forEach(g => {
