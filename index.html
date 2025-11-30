@@ -161,7 +161,7 @@
       }
     }
 
-    /* CÍRCULOS SVG PRINCIPALES (interior tipo panel LED) */
+    /* CÍRCULOS SVG PRINCIPALES */
 
     .dept-group {
       cursor: pointer;
@@ -326,40 +326,30 @@
           viewBox="0 0 2048 1447"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <!-- PATRÓN LED AZUL PARA CÍRCULOS PRINCIPALES -->
-          <defs>
-            <pattern id="ledCirclePatternMain" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse">
-              <rect width="8" height="8" fill="#020617" />
-              <!-- puntos LED azules -->
-              <circle cx="2" cy="2" r="1.8" fill="#38bdf8" />
-              <circle cx="6" cy="6" r="1.8" fill="#38bdf8" />
-            </pattern>
-          </defs>
-
           <image href="SILU.png" x="0" y="0" width="2048" height="1447" />
 
           <g class="dept-group" data-dept-target="dep1">
-            <circle class="dept-circle" cx="410" cy="800" r="90" fill="url(#ledCirclePatternMain)" />
+            <circle class="dept-circle" cx="410" cy="800" r="90" fill="#020617" />
             <text class="dept-text" x="410" y="800">S</text>
           </g>
 
           <g class="dept-group" data-dept-target="dep2">
-            <circle class="dept-circle" cx="838" cy="560" r="90" fill="url(#ledCirclePatternMain)" />
+            <circle class="dept-circle" cx="838" cy="560" r="90" fill="#020617" />
             <text class="dept-text" x="838" y="560">E</text>
           </g>
 
           <g class="dept-group" data-dept-target="dep3">
-            <circle class="dept-circle" cx="1292" cy="590" r="90" fill="url(#ledCirclePatternMain)" />
+            <circle class="dept-circle" cx="1292" cy="590" r="90" fill="#020617" />
             <text class="dept-text" x="1292" y="590">C</text>
           </g>
 
           <g class="dept-group" data-dept-target="dep4">
-            <circle class="dept-circle" cx="1554" cy="715" r="90" fill="url(#ledCirclePatternMain)" />
+            <circle class="dept-circle" cx="1554" cy="715" r="90" fill="#020617" />
             <text class="dept-text" x="1554" y="715">e</text>
           </g>
 
           <g class="dept-group" data-dept-target="dep5">
-            <circle class="dept-circle" cx="1853" cy="557" r="90" fill="url(#ledCirclePatternMain)" />
+            <circle class="dept-circle" cx="1853" cy="557" r="90" fill="#020617" />
             <text class="dept-text" x="1853" y="557">D</text>
           </g>
         </svg>
@@ -461,21 +451,13 @@
         panelText.innerHTML = `
           <div class="seg-diagram-wrapper">
             <svg class="seg-diagram-svg" viewBox="0 0 800 260" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <pattern id="ledCirclePatternSeg" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse">
-                  <rect width="8" height="8" fill="#020617" />
-                  <circle cx="2" cy="2" r="1.8" fill="#38bdf8" />
-                  <circle cx="6" cy="6" r="1.8" fill="#38bdf8" />
-                </pattern>
-              </defs>
-
               <!-- Línea que une los 4 subdepartamentos -->
               <line x1="100" y1="120" x2="700" y2="120"
                     stroke="#38bdf8" stroke-width="4" stroke-opacity="0.4" />
 
               <!-- 1. Seguridad Aérea (drones) -->
               <g class="seg-group" data-sub="drones" transform="translate(100, 120)">
-                <circle class="seg-circle" cx="0" cy="0" r="55" fill="url(#ledCirclePatternSeg)" />
+                <circle class="seg-circle" cx="0" cy="0" r="55" fill="#020617" />
                 <!-- Icono drone -->
                 <rect class="seg-icon-stroke" x="-18" y="-10" width="36" height="20" rx="4" />
                 <line class="seg-icon-stroke" x1="-35" y1="-20" x2="-10" y2="-10" />
@@ -494,7 +476,7 @@
 
               <!-- 2. Control de Participantes (RALLY) -->
               <g class="seg-group" data-sub="control" transform="translate(300, 120)">
-                <circle class="seg-circle" cx="0" cy="0" r="55" fill="url(#ledCirclePatternSeg)" />
+                <circle class="seg-circle" cx="0" cy="0" r="55" fill="#020617" />
 
                 <!-- ICONO CONTROL DE PARTICIPANTES (RALLY) -->
                 <!-- Dorsal -->
@@ -518,7 +500,7 @@
 
               <!-- 3. Posicionamiento GPS -->
               <g class="seg-group" data-sub="gps" transform="translate(500, 120)">
-                <circle class="seg-circle" cx="0" cy="0" r="55" fill="url(#ledCirclePatternSeg)" />
+                <circle class="seg-circle" cx="0" cy="0" r="55" fill="#020617" />
                 <!-- Icono pin GPS -->
                 <path class="seg-icon-stroke" d="M 0 -28 C -16 -28, -28 -16, -28 0 C -28 14, 0 40, 0 40 C 0 40, 28 14, 28 0 C 28 -16, 16 -28, 0 -28 Z" />
                 <circle class="seg-icon-stroke" cx="0" cy="-10" r="8" />
@@ -530,7 +512,7 @@
 
               <!-- 4. Banderas Electrónicas -->
               <g class="seg-group" data-sub="banderas" transform="translate(700, 120)">
-                <circle class="seg-circle" cx="0" cy="0" r="55" fill="url(#ledCirclePatternSeg)" />
+                <circle class="seg-circle" cx="0" cy="0" r="55" fill="#020617" />
                 <!-- Icono bandera -->
                 <line class="seg-icon-stroke" x1="-18" y1="-30" x2="-18" y2="35" />
                 <path class="seg-icon-stroke" d="M -18 -30 L 15 -22 L -4 -10 L 15 2 L -18 10 Z" />
@@ -575,41 +557,7 @@
       });
     }
 
-    function setupSeguridadInteractions() {
-      const segGroups = panelText.querySelectorAll(".seg-group");
-      const segInfoDiv = panelText.querySelector("#seg-info");
-      if (!segInfoDiv || segGroups.length === 0) return;
-
-      function activarSub(subKey) {
-        segGroups.forEach(g => {
-          const k = g.getAttribute("data-sub");
-          g.classList.toggle("seg-group-active", k === subKey);
-        });
-
-        const info = segSubInfo[subKey];
-        if (info) {
-          segInfoDiv.innerHTML = `
-            <h3>${info.titulo}</h3>
-            <p>${info.texto}</p>
-          `;
-        }
-      }
-
-      segGroups.forEach(g => {
-        const subKey = g.getAttribute("data-sub");
-        g.style.cursor = "pointer";
-        g.addEventListener("click", () => {
-          activarSub(subKey);
-        });
-      });
-
-      // Mensaje inicial
-      segInfoDiv.innerHTML = `
-        <h3>Seguridad</h3>
-        <p>Seleccione un subdepartamento para ver más información.</p>
-      `;
-    }
-
+    // Listeners de los departamentos principales (S, E, C, e, D)
     deptGroups.forEach(g => {
       const id = g.getAttribute("data-dept-target");
 
