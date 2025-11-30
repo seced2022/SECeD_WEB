@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SECeD</title>
 
-  <!-- Fuente tipo matriz LED (opcional pero recomendado) -->
+  <!-- Fuente tipo matriz LED -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap">
 
   <style>
@@ -100,7 +100,7 @@
       display: block;
     }
 
-    /* PANEL LED ENCIMA DE LA GRÁFICA (ESTILO MATRIZ) */
+    /* PANEL LED ENCIMA DE LA GRÁFICA */
 
     .dept-led {
       width: 100%;
@@ -120,7 +120,7 @@
       justify-content: center;
     }
 
-    /* Texto estilo matriz de puntos LED AZUL */
+    /* Texto estilo matriz de puntos LED AZUL (panel superior) */
     .dept-led-text {
       font-family: "DotGothic16", monospace;
       font-size: 1.35rem;
@@ -130,7 +130,6 @@
       overflow: hidden;
       text-overflow: ellipsis;
 
-      /* patrón de puntos azules tipo LED */
       background-image: radial-gradient(circle, #38bdf8 65%, transparent 66%);
       background-size: 7px 7px;
       background-repeat: repeat;
@@ -139,7 +138,6 @@
       background-clip: text;
       color: transparent;
 
-      /* halo azul alrededor de los puntos */
       text-shadow:
         0 0 4px rgba(56, 189, 248, 0.9),
         0 0 9px rgba(56, 189, 248, 0.8),
@@ -148,7 +146,6 @@
       animation: ledGlow 2.5s ease-in-out infinite;
     }
 
-    /* parpadeo suave del brillo azul */
     @keyframes ledGlow {
       0%, 100% {
         text-shadow:
@@ -164,34 +161,37 @@
       }
     }
 
-    /* CÍRCULOS SVG PRINCIPALES */
+    /* CÍRCULOS SVG PRINCIPALES (interior tipo panel LED) */
 
     .dept-group {
       cursor: pointer;
     }
 
     .dept-circle {
-      fill: rgba(15, 23, 42, 0.96);
+      /* el relleno LED lo controla el SVG con pattern */
       stroke: #38bdf8;
       stroke-width: 10;
       filter: drop-shadow(0 8px 18px rgba(8, 47, 73, 0.9));
-      transition: fill 0.2s ease, stroke 0.2s ease, filter 0.2s ease;
+      transition: stroke 0.2s ease, filter 0.2s ease;
     }
 
     .dept-group:hover .dept-circle,
     .dept-group.dept-active .dept-circle {
-      fill: rgba(15, 118, 230, 0.95);
       stroke: #f1f5f9;
       filter: drop-shadow(0 14px 30px rgba(56, 189, 248, 0.9));
     }
 
     .dept-text {
-      fill: #f9fafb;
+      font-family: "DotGothic16", monospace;
+      fill: #38bdf8;
       font-size: 90px;
       font-weight: 700;
       text-anchor: middle;
       dominant-baseline: middle;
       pointer-events: none;
+      text-shadow:
+        0 0 4px rgba(56, 189, 248, 0.9),
+        0 0 10px rgba(37, 99, 235, 0.8);
     }
 
     /* PANEL DEL DEPARTAMENTO */
@@ -235,7 +235,7 @@
     }
 
     .seg-circle {
-      fill: rgba(15, 23, 42, 0.96);
+      /* relleno LED desde pattern en el SVG */
       stroke: #38bdf8;
       stroke-width: 4;
       filter: drop-shadow(0 5px 12px rgba(8, 47, 73, 0.9));
@@ -248,9 +248,13 @@
     }
 
     .seg-label {
-      fill: #e5e7eb;
+      font-family: "DotGothic16", monospace;
+      fill: #38bdf8;
       font-size: 14px;
       text-anchor: middle;
+      text-shadow:
+        0 0 3px rgba(56, 189, 248, 0.9),
+        0 0 7px rgba(37, 99, 235, 0.8);
     }
 
     .seg-label-small {
@@ -324,30 +328,40 @@
           viewBox="0 0 2048 1447"
           xmlns="http://www.w3.org/2000/svg"
         >
+          <!-- DEFINICIÓN PATRÓN LED PARA CÍRCULOS PRINCIPALES -->
+          <defs>
+            <pattern id="ledCirclePatternMain" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
+              <rect width="10" height="10" fill="#020617" />
+              <!-- “píxeles” del panel -->
+              <circle cx="3" cy="3" r="1.4" fill="#0f172a" />
+              <circle cx="7" cy="7" r="1.4" fill="#0f172a" />
+            </pattern>
+          </defs>
+
           <image href="SILU.png" x="0" y="0" width="2048" height="1447" />
 
           <g class="dept-group" data-dept-target="dep1">
-            <circle class="dept-circle" cx="410" cy="800" r="90" />
+            <circle class="dept-circle" cx="410" cy="800" r="90" fill="url(#ledCirclePatternMain)" />
             <text class="dept-text" x="410" y="800">S</text>
           </g>
 
           <g class="dept-group" data-dept-target="dep2">
-            <circle class="dept-circle" cx="838" cy="560" r="90" />
+            <circle class="dept-circle" cx="838" cy="560" r="90" fill="url(#ledCirclePatternMain)" />
             <text class="dept-text" x="838" y="560">E</text>
           </g>
 
           <g class="dept-group" data-dept-target="dep3">
-            <circle class="dept-circle" cx="1292" cy="590" r="90" />
+            <circle class="dept-circle" cx="1292" cy="590" r="90" fill="url(#ledCirclePatternMain)" />
             <text class="dept-text" x="1292" y="590">C</text>
           </g>
 
           <g class="dept-group" data-dept-target="dep4">
-            <circle class="dept-circle" cx="1554" cy="715" r="90" />
+            <circle class="dept-circle" cx="1554" cy="715" r="90" fill="url(#ledCirclePatternMain)" />
             <text class="dept-text" x="1554" y="715">e</text>
           </g>
 
           <g class="dept-group" data-dept-target="dep5">
-            <circle class="dept-circle" cx="1853" cy="557" r="90" />
+            <circle class="dept-circle" cx="1853" cy="557" r="90" fill="url(#ledCirclePatternMain)" />
             <text class="dept-text" x="1853" y="557">D</text>
           </g>
         </svg>
@@ -449,13 +463,21 @@
         panelText.innerHTML = `
           <div class="seg-diagram-wrapper">
             <svg class="seg-diagram-svg" viewBox="0 0 800 260" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <pattern id="ledCirclePatternSeg" x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
+                  <rect width="10" height="10" fill="#020617" />
+                  <circle cx="3" cy="3" r="1.4" fill="#0f172a" />
+                  <circle cx="7" cy="7" r="1.4" fill="#0f172a" />
+                </pattern>
+              </defs>
+
               <!-- Línea que une los 4 subdepartamentos -->
               <line x1="100" y1="120" x2="700" y2="120"
                     stroke="#38bdf8" stroke-width="4" stroke-opacity="0.4" />
 
               <!-- 1. Seguridad Aérea (drones) -->
               <g class="seg-group" data-sub="drones" transform="translate(100, 120)">
-                <circle class="seg-circle" cx="0" cy="0" r="55" />
+                <circle class="seg-circle" cx="0" cy="0" r="55" fill="url(#ledCirclePatternSeg)" />
                 <!-- Icono drone -->
                 <rect class="seg-icon-stroke" x="-18" y="-10" width="36" height="20" rx="4" />
                 <line class="seg-icon-stroke" x1="-35" y1="-20" x2="-10" y2="-10" />
@@ -474,7 +496,7 @@
 
               <!-- 2. Control de Participantes (RALLY) -->
               <g class="seg-group" data-sub="control" transform="translate(300, 120)">
-                <circle class="seg-circle" cx="0" cy="0" r="55" />
+                <circle class="seg-circle" cx="0" cy="0" r="55" fill="url(#ledCirclePatternSeg)" />
 
                 <!-- ICONO CONTROL DE PARTICIPANTES (RALLY) -->
                 <!-- Dorsal -->
@@ -498,7 +520,7 @@
 
               <!-- 3. Posicionamiento GPS -->
               <g class="seg-group" data-sub="gps" transform="translate(500, 120)">
-                <circle class="seg-circle" cx="0" cy="0" r="55" />
+                <circle class="seg-circle" cx="0" cy="0" r="55" fill="url(#ledCirclePatternSeg)" />
                 <!-- Icono pin GPS -->
                 <path class="seg-icon-stroke" d="M 0 -28 C -16 -28, -28 -16, -28 0 C -28 14, 0 40, 0 40 C 0 40, 28 14, 28 0 C 28 -16, 16 -28, 0 -28 Z" />
                 <circle class="seg-icon-stroke" cx="0" cy="-10" r="8" />
@@ -510,7 +532,7 @@
 
               <!-- 4. Banderas Electrónicas -->
               <g class="seg-group" data-sub="banderas" transform="translate(700, 120)">
-                <circle class="seg-circle" cx="0" cy="0" r="55" />
+                <circle class="seg-circle" cx="0" cy="0" r="55" fill="url(#ledCirclePatternSeg)" />
                 <!-- Icono bandera -->
                 <line class="seg-icon-stroke" x1="-18" y1="-30" x2="-18" y2="35" />
                 <path class="seg-icon-stroke" d="M -18 -30 L 15 -22 L -4 -10 L 15 2 L -18 10 Z" />
